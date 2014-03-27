@@ -24,16 +24,4 @@ class FrontendSearchComponent extends Component
             ->setId('frontendsearch')
             ->setPackage('phlexible');
     }
-
-    public function getFrontendRoutes()
-    {
-        $solrSearch = new Zend_Controller_Router_Route(
-            '/search/*',
-            array('module' => 'frontendsuggestsearch', 'controller' => 'search', 'action' => 'suggest')
-        );
-
-        return array(
-            'frontendsuggestsearch_search' => $solrSearch
-        );
-    }
 }

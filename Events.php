@@ -19,11 +19,11 @@ interface Events
      * Before Search Event
      * Fired before a search operation
      */
-    const BEFORE_SEARCH = 'frontendfulltextsearch.before_search';
+    const BEFORE_SEARCH = 'frontendsearch.before_search';
 
     /**
      * Search Event
      * Fired after a search operation
      */
-    const SEARCH = 'frontendfulltextsearch.search';
+    const SEARCH = 'frontendsearch.search';
 }

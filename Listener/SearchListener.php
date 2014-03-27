@@ -11,8 +11,8 @@ namespace Phlexible\FrontendSearchComponent\Listener;
 /**
  * Search listener
  *
- * @author      Marco Fischer <mf@brainbits.net>
- * @author      Phillip Look <pl@brainbits.net>
+ * @author Marco Fischer <mf@brainbits.net>
+ * @author Phillip Look <pl@brainbits.net>
  */
 class SearchListener
 {
