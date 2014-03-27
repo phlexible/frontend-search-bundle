@@ -1,0 +1,35 @@
+services:
+    frontendSearchFulltextBoost:
+        class: Phlexible\FrontendSearchComponent\Boost\Boost
+
+    frontendSearchFulltextQuery:
+        class: Phlexible\FrontendSearchComponent\Query\Query
+        arguments: ["@indexerQueryParser", "@frontendSearchFulltextBoost"
+        tags:
+            - ["indexer.search"]
+
+    frontendSearchFulltext:
+        class: Phlexible\FrontendSearchComponent\Search\Search
+        arguments:
+            - "@frontendSearchCache"
+            - "@dispatcher"
+            - "@indexerSearch"
+            - "@frontendSearchFulltextQuery
+            - "@elementsManager"
+            - "@elementsContextManager"
+            - "@elementsTreeManager"
+
+    frontendSearchSuggestBoost:
+        class: Phlexible\FrontendSearchComponent\Boost\SuggestBoost
+
+    frontendSearchSuggestQuery:
+        class: Phlexible\FrontendSearchComponent\Query\SuggestQuery
+        arguments: [@indexerQueryParser, @frontendSearchSuggestBoost]
+        tags:
+            -  ["indexer.search"]
+
+    # listeners
+    frontendSearchListenerSearch:
+        class: Phlexible\FrontendSearchComponent\Listener\SearchListener
+        tags:
+            - ["event.listener", {event: suche, method: onSearch}
