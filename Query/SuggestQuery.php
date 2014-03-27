@@ -1,24 +1,22 @@
 <?php
 /**
- * Phlexible
+ * phlexible
  *
- * PHP Version 5
- *
- * @category    Makeweb
- * @package     Makeweb_FrontendSuggestSearch
- * @copyright   2010 brainbits GmbH (http://www.brainbits.net)
+ * @copyright 2007-2013 brainbits GmbH (http://www.brainbits.net)
+ * @license   proprietary
  */
 
+namespace Phlexible\FrontendSearchComponent\Query;
+
+use Phlexible\IndexerComponent\Query\AbstractQuery;
+
 /**
- * Frontend Suggest Search Query
+ * Suggest query
  *
- * @category    Makeweb
- * @package     Makeweb_FrontendSuggestSearch
- * @author      Marco Fischer <mf@brainbits.net>
- * @author      Phillip Look <pl@brainbits.net>
- * @copyright   2010 brainbits GmbH (http://www.brainbits.net)
+ * @author Marco Fischer <mf@brainbits.net>
+ * @author Phillip Look <pl@brainbits.net>
  */
-class Makeweb_FrontendSuggestSearch_Query extends MWF_Core_Indexer_Query_Abstract
+class SuggestQuery extends AbstractQuery
 {
     /**
      * Document types to find.

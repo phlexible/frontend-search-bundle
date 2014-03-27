@@ -27,5 +27,7 @@ class FrontendSearchExtension extends Extension
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../_config'));
         $loader->load('services.yml');
+
+        $container->setAlias('frontendSearchCache', 'managedCache');
     }
 }

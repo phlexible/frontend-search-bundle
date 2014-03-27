@@ -11,12 +11,12 @@ namespace Phlexible\FrontendSearchComponent\Query;
 use Phlexible\IndexerComponent\Query\AbstractQuery;
 
 /**
- * Query
+ * Fulltext query
  *
  * @author Marco Fischer <mf@brainbits.net>
  * @author Phillip Look <pl@brainbits.net>
  */
-class Query extends AbstractQuery
+class FulltextQuery extends AbstractQuery
 {
     /**
      * Document types to find.

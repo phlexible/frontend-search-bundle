@@ -1,23 +1,21 @@
 <?php
 /**
- * Phlexible
+ * phlexible
  *
- * PHP Version 5
- *
- * @category    Makeweb
- * @package     Makeweb_FrontendFulltextSearch
- * @copyright   2010 brainbits GmbH (http://www.brainbits.net)
+ * @copyright 2007-2013 brainbits GmbH (http://www.brainbits.net)
+ * @license   proprietary
  */
 
+namespace Phlexible\FrontendSearchComponent\Boost;
+
+use Phlexible\IndexerComponent\Boost\AbstractBoost;
+
 /**
- * Frontend Fulltext Search Boost
+ * Fulltext boost
  *
- * @category    Makeweb
- * @package     Makeweb_FrontendFulltextSearch
- * @author      Marco Fischer <mf@brainbits.net>
- * @copyright   2010 brainbits GmbH (http://www.brainbits.net)
+ * @author Marco Fischer <mf@brainbits.net>
  */
-class Makeweb_FrontendFulltextSearch_Boost extends MWF_Core_Indexer_Boost_Abstract
+class FulltextBoost extends AbstractBoost
 {
     protected $_customBoosts = array(
         'copy'  => 1,
