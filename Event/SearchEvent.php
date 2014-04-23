@@ -9,7 +9,7 @@
 namespace Phlexible\FrontendSearchComponent\Listener;
 
 use Phlexible\FrontendSearchComponent\Events;
-use Phlexible\Event\Event;
+use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Search event
@@ -18,11 +18,6 @@ use Phlexible\Event\Event;
  */
 class SearchEvent extends Event
 {
-    /**
-     * @var string
-     */
-    protected $eventName = Events::SEARCH;
-
     /**
      * @var Search
      */

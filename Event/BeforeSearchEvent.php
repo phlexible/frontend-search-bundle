@@ -8,8 +8,7 @@
 
 namespace Phlexible\FrontendSearchComponent\Listener;
 
-use Phlexible\FrontendSearchComponent\Events;
-use Phlexible\Event\Event;
+use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Before search event
@@ -18,11 +17,6 @@ use Phlexible\Event\Event;
  */
 class BeforeSearchEvent extends Event
 {
-    /**
-     * @var string
-     */
-    protected $eventName = Events::BEFORE_SEARCH;
-
     /**
      * @var Search
      */

@@ -8,6 +8,10 @@
 
 namespace Phlexible\FrontendSearchComponent\Search;
 
+use Phlexible\FrontendSearchComponent\Events;
+use Phlexible\FrontendSearchComponent\Listener\BeforeSearchEvent;
+use Phlexible\FrontendSearchComponent\Listener\SearchEvent;
+
 /**
  * Search
  *
@@ -64,12 +68,12 @@ class Search
      * @var Brainbits_Event_Dispatcher
      */
     protected $_dispatcher;
-    
+
     /**
      * @var array
      */
     protected $_siterootIds;
-    
+
 
 	/**
      * @param Doctrine\Common\Cache\Cache          $cache
@@ -114,7 +118,7 @@ class Search
     {
         $this->_siterootIds = $siterootIds;
     }
-    
+
     /**
      * @param string $queryString
      * @param string $currentPage
@@ -169,20 +173,15 @@ class Search
     {
         $this->_query->parseInput($queryString);
 
-        $beforeEvent = new Makeweb_FrontendFulltextSearch_Event_BeforeSearch(
-            $this,
-            $this->_query,
-            $queryString
-        );
-        $this->_dispatcher->postNotification($beforeEvent);
+        $beforeEvent = new BeforeSearchEvent($this, $this->_query, $queryString);
+        $this->_dispatcher->dispatch(Events::BEFORE_SEARCH, $beforeEvent);
 
         $results = $this->_indexerSearch
             ->query($this->_query)
             ->getResult();
 
-        $event = new Makeweb_FrontendFulltextSearch_Event_Search($this, $results);
-        $event->setBeforeNotification($beforeEvent);
-        $this->_dispatcher->postNotification($event);
+        $event = new SearchEvent($this, $results);
+        $this->_dispatcher->dispatch(Events::SEARCH, $event);
 
         return $results;
     }
@@ -219,9 +218,9 @@ class Search
             $language = $document->hasField('language') ? $document->getValue('language') : null;
 
             // remove deleted tids from result
-            
+
             $foundInTrees = false;
-            
+
             foreach ($trees as $tree)
             {
                 if ($docTid && $tree->getOnlineVersion($docTid, $language))
@@ -229,7 +228,7 @@ class Search
                     $foundInTrees = true;
                 }
             }
-            
+
             if ($docTid && !$foundInTrees)
             {
                 $document->setValue('hidden', true, true);
