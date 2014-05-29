@@ -6,12 +6,12 @@
  * @license   proprietary
  */
 
-namespace Phlexible\FrontendSearchComponent\Container;
+namespace Phlexible\FrontendSearchComponent\DependencyInjection;
 
-use Phlexible\Container\ContainerBuilder;
-use Phlexible\Container\Extension\Extension;
-use Phlexible\Container\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * Frontend search extension
@@ -23,11 +23,11 @@ class FrontendSearchExtension extends Extension
     /**
      * {@inheritdoc}
      */
-    public function load(ContainerBuilder $container, array $configs)
+    public function load(array $config, ContainerBuilder $container)
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../_config'));
         $loader->load('services.yml');
 
-        $container->setAlias('frontendSearchCache', 'managedCache');
+        $container->setAlias('frontendsearch.cache', 'managedCache');
     }
 }

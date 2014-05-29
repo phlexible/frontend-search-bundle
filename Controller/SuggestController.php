@@ -29,12 +29,12 @@ class SuggestController extends MWF_Controller_Action
         }
 
         $container = $this->getContainer();
-        $cache = $container->cache;
-        $query = $container->frontendSuggestSearchQuery;
+        $cache = $container->get('cache');
+        $query = $container->get('frontendSuggestSearchQuery');
         $query->parseInput($queryString);
         // TODO: Implement language... somehow...
 
-        $search = $container->indexerSearch;
+        $search = $container->get('indexer.search');
         $resultObject = $search->query($query, $language);
 
         $heads = array();

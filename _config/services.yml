@@ -1,35 +1,35 @@
 services:
-    frontendSearchFulltextBoost:
+    frontendsearch.boost.fulltext:
         class: Phlexible\FrontendSearchComponent\Boost\FulltextBoost
 
-    frontendSearchFulltextQuery:
+    frontendsearch.query.fulltext:
         class: Phlexible\FrontendSearchComponent\Query\FulltextQuery
-        arguments: ["@indexerQueryParser", "@frontendSearchFulltextBoost"]
+        arguments: ["@indexer.query.parser", "@frontendsearch.boost.fulltext"]
         tags:
-            - ["indexer.search"]
+            - {name: "indexer.search"}
 
-    frontendSearchFulltext:
+    frontendsearch.search:
         class: Phlexible\FrontendSearchComponent\Search\Search
         arguments:
-            - @frontendSearchCache
+            - @frontendsearch.cache
             - @dispatcher
-            - @indexerSearch
-            - @frontendSearchFulltextQuery
-            - @elementsRepository
-            - @elementsContextManager
-            - @treeManager
+            - @indexer.search
+            - @frontendsearch.query.fulltext
+            - @elements.repository
+            - @elements.context.manager
+            - @tree.manager
 
-    frontendSearchSuggestBoost:
+    frontendsearch.boost.suggest:
         class: Phlexible\FrontendSearchComponent\Boost\SuggestBoost
 
-    frontendSearchSuggestQuery:
+    frontendsearch.query.suggest:
         class: Phlexible\FrontendSearchComponent\Query\SuggestQuery
-        arguments: [@indexerQueryParser, @frontendSearchSuggestBoost]
+        arguments: [@indexer.query.parser, @frontendsearch.boost.suggest]
         tags:
-            -  ["indexer.search"]
+            -  {name: "indexer.search"}
 
     # listeners
-    frontendSearchListenerSearch:
+    frontendsearch.listener.search:
         class: Phlexible\FrontendSearchComponent\Listener\SearchListener
         tags:
-            - ["event.listener", {event: suche, method: onSearch}]
+            - {name: "event.listener", event: suche, method: onSearch}

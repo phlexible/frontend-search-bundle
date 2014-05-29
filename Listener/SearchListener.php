@@ -41,7 +41,7 @@ class SearchListener
             $current = $request->getParam('page', 1);
             $limit   = $request->getParam('limit', 10);
 
-            $search = $container->frontendFullTextSearchSearch->setRequest($request);
+            $search = $container->get('frontendFullTextSearchSearch')->setRequest($request);
 
 
             $paginator = $search->search($queryString, $current, $limit);

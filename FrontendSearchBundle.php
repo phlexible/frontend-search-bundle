@@ -11,11 +11,11 @@ namespace Phlexible\FrontendSearchComponent;
 use Phlexible\Component\Component;
 
 /**
- * Frontend search component
+ * Frontend search bundle
  *
  * @author Marco Fischer <mf@brainbits.net>
  */
-class FrontendSearchComponent extends Component
+class FrontendSearchBundle extends Component
 {
     public function __construct()
     {
