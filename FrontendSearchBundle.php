@@ -8,20 +8,13 @@
 
 namespace Phlexible\FrontendSearchComponent;
 
-use Phlexible\Component\Component;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * Frontend search bundle
  *
  * @author Marco Fischer <mf@brainbits.net>
  */
-class FrontendSearchBundle extends Component
+class FrontendSearchBundle extends Bundle
 {
-    public function __construct()
-    {
-        $this
-            ->setVersion('0.7.0')
-            ->setId('frontendsearch')
-            ->setPackage('phlexible');
-    }
 }

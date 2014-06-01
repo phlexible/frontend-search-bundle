@@ -6,45 +6,51 @@
  * @license   proprietary
  */
 
+namespace Phlexible\FrontendSearchComponent\Controller;
+
+use Phlexible\CoreComponent\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Suggest controller
  *
  * @author Marco Fischer <mf@brainbits.net>
  */
-class SuggestController extends MWF_Controller_Action
+class SuggestController extends Controller
 {
-    public function suggestAction()
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function suggestAction(Request $request)
     {
-        $language = $this->_getParam('lang');
-        $queryString = trim($this->_getParam('q' ,''));
+        $language = $request->get('lang');
+        $queryString = trim($request->get('q', ''));
 
-        if (strlen($queryString) == 0)
-        {
+        if (strlen($queryString) == 0) {
             return;
         }
 
-        if (!Brainbits_Util_String::checkUtf8Encoding($queryString))
-        {
+        if (!Brainbits_Util_String::checkUtf8Encoding($queryString)) {
             return;
         }
 
-        $container = $this->getContainer();
-        $cache = $container->get('cache');
-        $query = $container->get('frontendSuggestSearchQuery');
+        $cache = $this->get('cache');
+        $query = $this->get('frontendSuggestSearchQuery');
         $query->parseInput($queryString);
         // TODO: Implement language... somehow...
 
-        $search = $container->get('indexer.search');
+        $search = $this->get('indexer.search');
         $resultObject = $search->query($query, $language);
 
         $heads = array();
 
         $n = 1;
         $output = '';
-        foreach ($resultObject as $document)
-        {
-            if (isset($heads[md5($document->getValue('title'))]))
-            {
+        foreach ($resultObject as $document) {
+            if (isset($heads[md5($document->getValue('title'))])) {
                 continue;
             }
 
@@ -54,14 +60,13 @@ class SuggestController extends MWF_Controller_Action
             //$output .= " |" . $document->getValue('url');
             $output .= PHP_EOL;
 
-            if ($n >= 10)
-            {
+            if ($n >= 10) {
                 break;
             }
 
             $n++;
         }
 
-        $this->_response->setBody($output);
+        return new Response($output);
     }
 }

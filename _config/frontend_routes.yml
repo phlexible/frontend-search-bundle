@@ -1,3 +1,0 @@
-frontendsearch_suggest:
-    path: '/search'
-    defaults: { module: frontendsearch, controller: suggest, action: suggest }
