@@ -12,7 +12,7 @@ services:
         class: Phlexible\FrontendSearchComponent\Search\Search
         arguments:
             - @frontendsearch.cache
-            - @dispatcher
+            - @event_dispatcher
             - @indexer.search
             - @frontendsearch.query.fulltext
             - @elements.repository
@@ -32,4 +32,4 @@ services:
     frontendsearch.listener.search:
         class: Phlexible\FrontendSearchComponent\Listener\SearchListener
         tags:
-            - {name: "event.listener", event: suche, method: onSearch}
+            - {name: "kernel.event_listener", event: suche, method: onSearch}
