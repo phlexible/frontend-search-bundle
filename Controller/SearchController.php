@@ -8,23 +8,25 @@
 
 namespace Phlexible\FrontendSearchComponent\Controller;
 
-use Phlexible\CoreComponent\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Suggest controller
+ * Search controller
  *
  * @author Marco Fischer <mf@brainbits.net>
  */
-class SuggestController extends Controller
+class SearchController extends Controller
 {
     /**
      * @param Request $request
      *
      * @return Response
+     * @Route("/_search", name="frontendsearch_suggest")
      */
-    public function suggestAction(Request $request)
+    public function searchAction(Request $request)
     {
         $language = $request->get('lang');
         $queryString = trim($request->get('q', ''));
