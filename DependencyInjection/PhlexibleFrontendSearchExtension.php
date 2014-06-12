@@ -28,6 +28,6 @@ class PhlexibleFrontendSearchExtension extends Extension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        $container->setAlias('frontendsearch.cache', 'managedCache');
+        $container->setAlias('frontendsearch.cache', 'cache.managed');
     }
 }
