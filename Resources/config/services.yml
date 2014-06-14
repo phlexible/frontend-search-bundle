@@ -28,8 +28,8 @@ services:
         tags:
             -  {name: "indexer.search"}
 
-    # listeners
+    # event listeners
     frontendsearch.listener.search:
-        class: Phlexible\FrontendSearchComponent\Listener\SearchListener
+        class: Phlexible\FrontendSearchComponent\EventListener\SearchListener
         tags:
             - {name: "kernel.event_listener", event: suche, method: onSearch}
