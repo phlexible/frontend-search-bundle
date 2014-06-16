@@ -6,7 +6,7 @@
  * @license   proprietary
  */
 
-namespace Phlexible\FrontendSearchComponent;
+namespace Phlexible\FrontendSearchBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

@@ -6,7 +6,7 @@
  * @license   proprietary
  */
 
-namespace Phlexible\FrontendSearchComponent;
+namespace Phlexible\FrontendSearchBundle;
 
 /**
  * Frontend search events

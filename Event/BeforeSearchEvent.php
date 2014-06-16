@@ -6,7 +6,7 @@
  * @license   proprietary
  */
 
-namespace Phlexible\FrontendSearchComponent\Listener;
+namespace Phlexible\FrontendSearchBundle\Listener;
 
 use Symfony\Component\EventDispatcher\Event;
 

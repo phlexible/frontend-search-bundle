@@ -6,9 +6,9 @@
  * @license   proprietary
  */
 
-namespace Phlexible\FrontendSearchComponent\Boost;
+namespace Phlexible\FrontendSearchBundle\Boost;
 
-use Phlexible\IndexerComponent\Boost\AbstractBoost;
+use Phlexible\IndexerBundle\Boost\AbstractBoost;
 
 /**
  * Suggest boost

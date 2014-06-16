@@ -1,15 +1,17 @@
 {
-    "name": "phlexible/frontend-search-component",
-    "description": "phlexible.cms frontend search component",
+    "name": "phlexible/frontend-search-bundle",
+    "description": "phlexible frontend search bundle",
     "license": "proprietary",
+	"type": "symfony-bundle",
+	"keywords": ["indexer", "search"],
     "autoload": {
-        "psr-4": { 
-            "Phlexible\\FrontendSearchComponent\\": ""
+        "psr-4": {
+            "Phlexible\\FrontendSearchBundle\\": ""
         }
     },
     "require": {
         "php": ">=5.3.0",
-        "phlexible/indexer-elements-component": "*"
+        "phlexible/indexer-element-bundle": "*"
     },
     "repositories": [
         {
