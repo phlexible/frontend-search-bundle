@@ -8,7 +8,7 @@
 
 namespace Phlexible\FrontendSearchBundle\Search;
 
-use Phlexible\FrontendSearchBundle\Events;
+use Phlexible\FrontendSearchBundle\FrontendSearchEvents;
 use Phlexible\FrontendSearchBundle\Listener\BeforeSearchEvent;
 use Phlexible\FrontendSearchBundle\Listener\SearchEvent;
 
@@ -174,14 +174,14 @@ class Search
         $this->_query->parseInput($queryString);
 
         $beforeEvent = new BeforeSearchEvent($this, $this->_query, $queryString);
-        $this->_dispatcher->dispatch(Events::BEFORE_SEARCH, $beforeEvent);
+        $this->_dispatcher->dispatch(FrontendSearchEvents::BEFORE_SEARCH, $beforeEvent);
 
         $results = $this->_indexerSearch
             ->query($this->_query)
             ->getResult();
 
         $event = new SearchEvent($this, $results);
-        $this->_dispatcher->dispatch(Events::SEARCH, $event);
+        $this->_dispatcher->dispatch(FrontendSearchEvents::SEARCH, $event);
 
         return $results;
     }
@@ -196,7 +196,7 @@ class Search
         return $paginator;
     }
 
-    protected function _filterResult(Zend_Paginator $paginator)
+    protected function _filterResult(\Zend_Paginator $paginator)
     {
         $trees = array();
         foreach ($this->_siterootIds as $siterootId)

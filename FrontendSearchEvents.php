@@ -13,17 +13,17 @@ namespace Phlexible\FrontendSearchBundle;
  *
  * @author Marco Fischer <mf@brainbits.net>
  */
-interface Events
+interface FrontendSearchEvents
 {
     /**
      * Before Search Event
      * Fired before a search operation
      */
-    const BEFORE_SEARCH = 'frontendsearch.before_search';
+    const BEFORE_SEARCH = 'phlexible_frontend_search.before_search';
 
     /**
      * Search Event
      * Fired after a search operation
      */
-    const SEARCH = 'frontendsearch.search';
+    const SEARCH = 'phlexible_frontend_search.search';
 }

@@ -8,7 +8,6 @@
 
 namespace Phlexible\FrontendSearchBundle\Listener;
 
-use Phlexible\FrontendSearchBundle\Events;
 use Symfony\Component\EventDispatcher\Event;
 
 /**

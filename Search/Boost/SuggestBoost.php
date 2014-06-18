@@ -6,26 +6,26 @@
  * @license   proprietary
  */
 
-namespace Phlexible\FrontendSearchBundle\Boost;
+namespace Phlexible\FrontendSearchBundle\Search\Boost;
 
 use Phlexible\IndexerBundle\Boost\AbstractBoost;
 
 /**
- * Fulltext boost
+ * Suggest boost
  *
  * @author Marco Fischer <mf@brainbits.net>
  */
-class FulltextBoost extends AbstractBoost
+class SuggestBoost extends AbstractBoost
 {
     protected $_customBoosts = array(
-        'copy'  => 1,
-        'tags'  => 1.5,
-        'title' => 1.25
+        'copy'  => 0.2,
+        'tags'  => 0.5,
+        'title' => 1
     );
 
     protected $_customPrecision = array(
-        'copy'  => 0.7,
-        'tags'  => 0.9,
+        'copy'  => 0.5,
+        'tags'  => 0.8,
         'title' => 0.8
     );
 }

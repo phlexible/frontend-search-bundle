@@ -1,0 +1,35 @@
+services:
+    phlexible_frontend_search.boost.fulltext:
+        class: Phlexible\FrontendSearchBundle\Boost\FulltextBoost
+
+    phlexible_frontend_search.query.fulltext:
+        class: Phlexible\FrontendSearchBundle\Query\FulltextQuery
+        arguments: [@phlexible_indexer.query.parser, @phlexible_frontend_search.boost.fulltext]
+        tags:
+            - {name: indexer.search}
+
+    phlexible_frontend_search.search:
+        class: Phlexible\FrontendSearchBundle\Search\Search
+        arguments:
+            - @phlexible_frontend_search.cache
+            - @event_dispatcher
+            - @phlexible_indexer.search
+            - @phlexible_frontend_search.query.fulltext
+            - @phlexible_element.repository
+            - @phlexible_element.context.manager
+            - @phlexible_tree.manager
+
+    phlexible_frontend_search.boost.suggest:
+        class: Phlexible\FrontendSearchBundle\Boost\SuggestBoost
+
+    phlexible_frontend_search.query.suggest:
+        class: Phlexible\FrontendSearchBundle\Query\SuggestQuery
+        arguments: [@phlexible_indexer.query.parser, @phlexible_frontend_search.boost.suggest]
+        tags:
+            -  {name: phlexible_indexer.search}
+
+    # event listeners
+    phlexible_frontend_search.listener.search:
+        class: Phlexible\FrontendSearchBundle\EventListener\SearchListener
+        tags:
+            - {name: kernel.event_listener, event: suche, method: onSearch}

@@ -6,32 +6,32 @@
  * @license   proprietary
  */
 
-namespace Phlexible\FrontendSearchBundle\Query;
+namespace Phlexible\FrontendSearchBundle\Search\Query;
 
 use Phlexible\IndexerBundle\Query\AbstractQuery;
 
 /**
- * Suggest query
+ * Fulltext query
  *
  * @author Marco Fischer <mf@brainbits.net>
  * @author Phillip Look <pl@brainbits.net>
  */
-class SuggestQuery extends AbstractQuery
+class FulltextQuery extends AbstractQuery
 {
     /**
      * Document types to find.
      *
      * @var array
      */
-    protected $_documentTypes = array('media', 'elements');
+    protected $documentTypes = array('media', 'elements');
 
     /**
      * @var array
      */
-    protected $_fields = array('title', 'tags');
+    protected $_fields = array('title', 'tags', 'copy');
 
     /**
      * @var string
      */
-    protected $_label = 'Frontend suggest search';
+    protected $label = 'Frontend fulltext search';
 }
