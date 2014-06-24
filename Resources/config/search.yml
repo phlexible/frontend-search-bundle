@@ -1,9 +1,9 @@
 services:
     phlexible_frontend_search.boost.fulltext:
-        class: Phlexible\FrontendSearchBundle\Boost\FulltextBoost
+        class: Phlexible\FrontendSearchBundle\Search\Boost\FulltextBoost
 
     phlexible_frontend_search.query.fulltext:
-        class: Phlexible\FrontendSearchBundle\Query\FulltextQuery
+        class: Phlexible\FrontendSearchBundle\Search\Query\FulltextQuery
         arguments: [@phlexible_indexer.query.parser, @phlexible_frontend_search.boost.fulltext]
         tags:
             - {name: indexer.search}
@@ -20,10 +20,10 @@ services:
             - @phlexible_tree.manager
 
     phlexible_frontend_search.boost.suggest:
-        class: Phlexible\FrontendSearchBundle\Boost\SuggestBoost
+        class: Phlexible\FrontendSearchBundle\Search\Boost\SuggestBoost
 
     phlexible_frontend_search.query.suggest:
-        class: Phlexible\FrontendSearchBundle\Query\SuggestQuery
+        class: Phlexible\FrontendSearchBundle\Search\Query\SuggestQuery
         arguments: [@phlexible_indexer.query.parser, @phlexible_frontend_search.boost.suggest]
         tags:
             -  {name: phlexible_indexer.search}
