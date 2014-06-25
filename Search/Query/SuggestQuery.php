@@ -6,9 +6,9 @@
  * @license   proprietary
  */
 
-namespace Phlexible\FrontendSearchBundle\Search\Query;
+namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query;
 
-use Phlexible\IndexerBundle\Query\AbstractQuery;
+use Phlexible\Bundle\IndexerBundle\Query\AbstractQuery;
 
 /**
  * Suggest query

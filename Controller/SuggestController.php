@@ -6,7 +6,7 @@
  * @license   proprietary
  */
 
-namespace Phlexible\FrontendSearchBundle\Controller;
+namespace Phlexible\Bundle\FrontendSearchBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

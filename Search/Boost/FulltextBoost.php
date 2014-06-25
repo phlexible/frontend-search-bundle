@@ -6,9 +6,9 @@
  * @license   proprietary
  */
 
-namespace Phlexible\FrontendSearchBundle\Search\Boost;
+namespace Phlexible\Bundle\FrontendSearchBundle\Search\Boost;
 
-use Phlexible\IndexerBundle\Boost\AbstractBoost;
+use Phlexible\Bundle\IndexerBundle\Boost\AbstractBoost;
 
 /**
  * Fulltext boost

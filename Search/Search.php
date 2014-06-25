@@ -6,11 +6,11 @@
  * @license   proprietary
  */
 
-namespace Phlexible\FrontendSearchBundle\Search;
+namespace Phlexible\Bundle\FrontendSearchBundle\Search;
 
-use Phlexible\FrontendSearchBundle\FrontendSearchEvents;
-use Phlexible\FrontendSearchBundle\Listener\BeforeSearchEvent;
-use Phlexible\FrontendSearchBundle\Listener\SearchEvent;
+use Phlexible\Bundle\FrontendSearchBundle\FrontendSearchEvents;
+use Phlexible\Bundle\FrontendSearchBundle\Listener\BeforeSearchEvent;
+use Phlexible\Bundle\FrontendSearchBundle\Listener\SearchEvent;
 
 /**
  * Search

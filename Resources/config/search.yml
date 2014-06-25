@@ -1,15 +1,15 @@
 services:
     phlexible_frontend_search.boost.fulltext:
-        class: Phlexible\FrontendSearchBundle\Search\Boost\FulltextBoost
+        class: Phlexible\Bundle\FrontendSearchBundle\Search\Boost\FulltextBoost
 
     phlexible_frontend_search.query.fulltext:
-        class: Phlexible\FrontendSearchBundle\Search\Query\FulltextQuery
+        class: Phlexible\Bundle\FrontendSearchBundle\Search\Query\FulltextQuery
         arguments: [@phlexible_indexer.query.parser, @phlexible_frontend_search.boost.fulltext]
         tags:
             - {name: indexer.search}
 
     phlexible_frontend_search.search:
-        class: Phlexible\FrontendSearchBundle\Search\Search
+        class: Phlexible\Bundle\FrontendSearchBundle\Search\Search
         arguments:
             - @phlexible_frontend_search.cache
             - @event_dispatcher
@@ -20,16 +20,16 @@ services:
             - @phlexible_tree.manager
 
     phlexible_frontend_search.boost.suggest:
-        class: Phlexible\FrontendSearchBundle\Search\Boost\SuggestBoost
+        class: Phlexible\Bundle\FrontendSearchBundle\Search\Boost\SuggestBoost
 
     phlexible_frontend_search.query.suggest:
-        class: Phlexible\FrontendSearchBundle\Search\Query\SuggestQuery
+        class: Phlexible\Bundle\FrontendSearchBundle\Search\Query\SuggestQuery
         arguments: [@phlexible_indexer.query.parser, @phlexible_frontend_search.boost.suggest]
         tags:
             -  {name: phlexible_indexer.search}
 
     # event listeners
     phlexible_frontend_search.listener.search:
-        class: Phlexible\FrontendSearchBundle\EventListener\SearchListener
+        class: Phlexible\Bundle\FrontendSearchBundle\EventListener\SearchListener
         tags:
             - {name: kernel.event_listener, event: suche, method: onSearch}
