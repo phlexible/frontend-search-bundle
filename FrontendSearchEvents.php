@@ -13,7 +13,7 @@ namespace Phlexible\Bundle\FrontendSearchBundle;
  *
  * @author Marco Fischer <mf@brainbits.net>
  */
-interface FrontendSearchEvents
+class FrontendSearchEvents
 {
     /**
      * Before Search Event
