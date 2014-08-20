@@ -17,7 +17,7 @@ services:
             - @phlexible_frontend_search.query.fulltext
             - @phlexible_element.repository
             - @phlexible_element.context.manager
-            - @phlexible_tree.manager
+            - @phlexible_tree.tree_manager
 
     phlexible_frontend_search.boost.suggest:
         class: Phlexible\Bundle\FrontendSearchBundle\Search\Boost\SuggestBoost
