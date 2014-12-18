@@ -26,13 +26,13 @@ class PhlexibleFrontendSearchExtension extends Extension
     public function load(array $config, ContainerBuilder $container)
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('search.yml');
-        $loader->load('suggest.yml');
+        //$loader->load('search.yml');
+        //$loader->load('suggest.yml');
 
         $configuration = $this->getConfiguration($config, $container);
         $config = $this->processConfiguration($configuration, $config);
 
-        $container->setParameter('phlexible_frontend_search.use_context', $config['use_context']);
+        /*
         $container->setParameter('phlexible_frontend_search.query.field_config', $config['query']['field_config']);
         $container->setParameter('phlexible_frontend_search.query.min_token_length', $config['query']['min_token_length']);
         $container->setParameter('phlexible_frontend_search.query.skip_restricted', $config['query']['skip_restricted']);
@@ -49,7 +49,6 @@ class PhlexibleFrontendSearchExtension extends Extension
         $container->setParameter('phlexible_frontend_search.solr.subquery.size', $config['solr']['subquery']['size']);
         $container->setParameter('phlexible_frontend_search.solr.subquery.size_restricted', $config['solr']['subquery']['size_restricted']);
         $container->setParameter('phlexible_frontend_search.solr.result.suggestions', $config['solr']['result']['suggestions']);
-
-        $container->setAlias('phlexible_frontend_search.cache', 'phlexible_cache.managed_cache');
+        */
     }
 }

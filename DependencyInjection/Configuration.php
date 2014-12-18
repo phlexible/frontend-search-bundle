@@ -6,15 +6,15 @@
  * @license   proprietary
  */
 
-namespace Phlexible\FrontendSearchSuggestBundle\DependencyInjection;
+namespace Phlexible\Bundle\FrontendSearchBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * Frontend search suggest configuration
+ * Frontend search configuration
  *
- * @author Phillip Look <pl@brainbits.net>
+ * @author Stephan Wentz <sw@brainbits.net>
  */
 class Configuration implements ConfigurationInterface
 {
@@ -24,11 +24,10 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('phlexible_frontend_suggest_search');
+        $rootNode = $treeBuilder->root('phlexible_frontend_search');
 
         $rootNode
             ->children()
-                ->booleanNode('use_context')->defaultValue(false)->end()
                 ->arrayNode('query')
                     ->addDefaultsIfNotSet()
                     ->children()
