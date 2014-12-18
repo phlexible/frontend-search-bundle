@@ -1,0 +1,5 @@
+services:
+    phlexible_frontend_search.element_search:
+        class: Phlexible\Bundle\FrontendSearchBundle\Search\ElementSearch
+        arguments:
+            - @phlexible_indexer.storage.default
