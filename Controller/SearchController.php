@@ -35,6 +35,19 @@ class SearchController extends Controller
      * @param Request $request
      *
      * @return Response
+     * @Route("/test", name="frontendsearch_test")
+     */
+    public function testAction(Request $request)
+    {
+        return $this->render(
+            'PhlexibleFrontendSearchBundle::test.html.twig'
+        );
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return Response
      * @Route("/query", name="frontendsearch_query")
      */
     public function queryAction(Request $request)
@@ -55,17 +68,59 @@ class SearchController extends Controller
 
         $filter = new BoolAndFilter();
         $filter->addFilter(new TermFilter(array('language' => $language)));
-        $filter->addFilter(new TermFilter(array('siteroot_id' => $siterootId)));
+        $filter->addFilter(new TermFilter(array('siterootId' => $siterootId)));
 
         $query = $storage->createQuery()
-            ->setQuery(new QueryString($queryString))
-            ->setFilter($filter);
+            //->setFilter($filter)
+            ->setQuery(new QueryString($queryString));
 
-        $results = $storage->query($query);
+        $result = $storage->query($query);
 
-        $template = 'test.html.twig';
+        $template = 'PhlexibleFrontendSearchBundle::result.html.twig';
 
-        return $this->render($template, $results);
+        return $this->render($template, array('result' => $result));
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return JsonResponse
+     * @Route("/query_json", name="frontendsearch_query_json")
+     */
+    public function queryJsonAction(Request $request)
+    {
+        $language = $request->get('language');
+        $queryString = trim($request->get('q', ''));
+        $siterootId = $request->get('siteroot_id');
+
+        if (strlen($queryString) == 0) {
+            return new Response('');
+        }
+
+        if (!mb_check_encoding($queryString, 'UTF-8')) {
+            return new Response('');
+        }
+
+        $storage = $this->get('phlexible_indexer.storage.default');
+
+        $filter = new BoolAndFilter();
+        $filter->addFilter(new TermFilter(array('language' => $language)));
+        $filter->addFilter(new TermFilter(array('siterootId' => $siterootId)));
+
+        $query = $storage->createQuery()
+            //->setFilter($filter)
+            ->setQuery(new QueryString($queryString));
+
+        $result = $storage->query($query);
+
+        $template = 'PhlexibleFrontendSearchBundle::result.html.twig';
+
+        return new JsonResponse(
+            array(
+                'result' => $result,
+                'view' => $this->renderView($template, array('result' => $result))
+            )
+        );
     }
 
     /**
@@ -187,7 +242,10 @@ class SearchController extends Controller
 
         $autocompletes = array();
         foreach ($results['aggregations']['autocomplete']['buckets'] as $bucket) {
-            $autocompletes[$bucket['key']] = $bucket['doc_count'];
+            $autocompletes[] = array(
+                'value' => $bucket['key'],
+                'count' => $bucket['doc_count']
+            );
         }
 
         return new JsonResponse($autocompletes);
