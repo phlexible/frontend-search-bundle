@@ -8,15 +8,13 @@
 
 namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query;
 
-use Phlexible\Bundle\IndexerBundle\Query\AbstractQuery;
-
 /**
  * Fulltext query
  *
  * @author Marco Fischer <mf@brainbits.net>
  * @author Phillip Look <pl@brainbits.net>
  */
-class FulltextQuery extends AbstractQuery
+class FulltextQuery
 {
     /**
      * Document types to find.

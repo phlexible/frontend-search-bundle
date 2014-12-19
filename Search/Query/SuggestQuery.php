@@ -8,15 +8,13 @@
 
 namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query;
 
-use Phlexible\Bundle\IndexerBundle\Query\AbstractQuery;
-
 /**
  * Suggest query
  *
  * @author Marco Fischer <mf@brainbits.net>
  * @author Phillip Look <pl@brainbits.net>
  */
-class SuggestQuery extends AbstractQuery
+class SuggestQuery
 {
     /**
      * Document types to find.

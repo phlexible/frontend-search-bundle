@@ -8,6 +8,7 @@
 
 namespace Phlexible\Bundle\FrontendSearchBundle\Search;
 
+use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryBuilder;
 use Phlexible\Bundle\IndexerBundle\Query\Aggregation\TermsAggregation;
 use Phlexible\Bundle\IndexerBundle\Query\Filter\BoolAndFilter;
 use Phlexible\Bundle\IndexerBundle\Query\Filter\TermFilter;
@@ -52,6 +53,8 @@ class ElementSearch
             //->addFilter(new TermFilter(array('siterootId' => $siterootId)))
             ->addFilter(new TermFilter(array('language' => $language)));
 
+        $queryBuilder = new QueryBuilder();
+
         $query = $this->storage->createQuery()
             ->setHighlight(
                 array(
@@ -62,7 +65,7 @@ class ElementSearch
                 )
             )
             ->setFilter($filter)
-            ->setQuery(new QueryString($queryString));
+            ->setQuery($queryBuilder->build($queryString, array('title' => 1.2, 'content' => 1.0)));
 
         return $this->storage->query($query);
     }
