@@ -65,11 +65,11 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
         $expected = array(
             new Token(Token::TERM, 'hello'),
             new Token(Token::SPACE, ' '),
-            new Token(Token::PHRASE_START, '"'),
+            new Token(Token::QUOTE, '"'),
             new Token(Token::TERM, 'test'),
             new Token(Token::SPACE, ' '),
             new Token(Token::TERM, 'phrase'),
-            new Token(Token::PHRASE_END, '"'),
+            new Token(Token::QUOTE, '"'),
         );
 
         $this->assertEquals($expected, $tokens);
@@ -89,11 +89,11 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
             new Token(Token::SPACE, ' '),
             new Token(Token::TERM, 'nice'),
             new Token(Token::SPACE, ' '),
-            new Token(Token::PHRASE_START, '"'),
+            new Token(Token::QUOTE, '"'),
             new Token(Token::TERM, 'test'),
             new Token(Token::SPACE, ' '),
             new Token(Token::TERM, 'phrase'),
-            new Token(Token::PHRASE_END, '"'),
+            new Token(Token::QUOTE, '"'),
         );
 
         $this->assertEquals($expected, $tokens);

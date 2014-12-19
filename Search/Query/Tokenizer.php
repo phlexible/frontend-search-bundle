@@ -46,13 +46,13 @@ class Tokenizer
                 }
                 $tokens[] = new Token(Token::SPACE, $char);
             } elseif ($char === '"' && !count($buffer)) {
-                $tokens[] = new Token(Token::PHRASE_START, $char);
+                $tokens[] = new Token(Token::QUOTE, $char);
             } elseif ($char === '"' && count($buffer)) {
                 if (count($buffer)) {
                     $tokens[] = new Token(Token::TERM, implode($buffer));
                     $buffer = array();
                 }
-                $tokens[] = new Token(Token::PHRASE_END, $char);
+                $tokens[] = new Token(Token::QUOTE, $char);
             } else {
                 $buffer[] = $char;
             }

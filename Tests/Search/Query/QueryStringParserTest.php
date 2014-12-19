@@ -32,197 +32,244 @@ class QueryStringParserTest extends \PHPUnit_Framework_TestCase
 
     public function testParseSingleShouldWord()
     {
-        $q = 'test';
+        $q = 'foo';
 
-        $result = $this->parser->parse($q);
+        $terms = $this->parser->parse($q);
 
-        $this->assertCount(1, $result);
-        $this->assertEquals($result[0]->getOccurrence(), 'should');
-        $this->assertEquals($result[0]->getValue(), 'test');
+        $this->assertCount(1, $terms);
+        $term = array_shift($terms);
+        $this->assertEquals('should', $term->getOccurrence());
+        $this->assertEquals('foo', $term->getValue());
     }
 
     public function testParseSingleMustWord()
     {
-        $q = '+test';
+        $q = '+foo';
 
-        $result = $this->parser->parse($q);
+        $terms = $this->parser->parse($q);
 
-        $this->assertCount(1, $result);
-        $this->assertEquals($result[0]->getOccurrence(), 'must');
-        $this->assertEquals($result[0]->getValue(), 'test');
+        $this->assertCount(1, $terms);
+        $term = array_shift($terms);
+        $this->assertEquals('must', $term->getOccurrence());
+        $this->assertEquals('foo', $term->getValue());
     }
 
     public function testParseSingleMustNotWord()
     {
-        $q = '-test';
+        $q = '-foo';
 
-        $result = $this->parser->parse($q);
+        $terms = $this->parser->parse($q);
 
-        $this->assertCount(1, $result);
-        $this->assertEquals($result[0]->getOccurrence(), 'mustNot');
-        $this->assertEquals($result[0]->getValue(), 'test');
+        $this->assertCount(1, $terms);
+        $term = array_shift($terms);
+        $this->assertEquals('mustNot', $term->getOccurrence());
+        $this->assertEquals('foo', $term->getValue());
     }
 
     public function testParseShouldPhrase()
     {
-        $q = '"test phrase"';
+        $q = '"hello world"';
 
-        $result = $this->parser->parse($q);
+        $terms = $this->parser->parse($q);
 
-        $this->assertCount(1, $result);
-        $this->assertEquals($result[0]->getOccurrence(), 'should');
-        $this->assertEquals($result[0]->getValue(), array('test', 'phrase'));
+        $this->assertCount(1, $terms);
+        $term = array_shift($terms);
+        $this->assertEquals('should', $term->getOccurrence());
+        $this->assertEquals(array('hello', 'world'), $term->getValue());
     }
 
     public function testParseMustPhrase()
     {
-        $q = '+"test phrase"';
+        $q = '+"hello world"';
 
-        $result = $this->parser->parse($q);
+        $terms = $this->parser->parse($q);
 
-        $this->assertCount(1, $result);
-        $this->assertEquals($result[0]->getOccurrence(), 'must');
-        $this->assertEquals($result[0]->getValue(), array('test', 'phrase'));
+        $this->assertCount(1, $terms);
+        $term = array_shift($terms);
+        $this->assertEquals('must', $term->getOccurrence());
+        $this->assertEquals(array('hello', 'world'), $term->getValue());
     }
 
     public function testParseMustNotPhrase()
     {
-        $q = '-"test phrase"';
+        $q = '-"hello world"';
 
-        $result = $this->parser->parse($q);
+        $terms = $this->parser->parse($q);
 
-        $this->assertCount(1, $result);
-        $this->assertEquals($result[0]->getOccurrence(), 'mustNot');
-        $this->assertEquals($result[0]->getValue(), array('test', 'phrase'));
+        $this->assertCount(1, $terms);
+        $term = array_shift($terms);
+        $this->assertEquals('mustNot', $term->getOccurrence());
+        $this->assertEquals(array('hello', 'world'), $term->getValue());
     }
 
     public function testParsePhraseWithSingleWord()
     {
-        $q = '"test"';
+        $q = '"foo"';
 
-        $result = $this->parser->parse($q);
+        $terms = $this->parser->parse($q);
 
-        $this->assertCount(1, $result);
-        $this->assertEquals($result[0]->getOccurrence(), 'should');
-        $this->assertEquals($result[0]->getValue(), 'test');
+        $this->assertCount(1, $terms);
+        $term = array_shift($terms);
+        $this->assertEquals('should', $term->getOccurrence());
+        $this->assertEquals('foo', $term->getValue());
     }
 
     public function testParseShouldAndMust()
     {
         $q = 'hello +world';
 
-        $result = $this->parser->parse($q);
+        $terms = $this->parser->parse($q);
 
-        $this->assertCount(2, $result);
-        $this->assertEquals($result[0]->getOccurrence(), 'should');
-        $this->assertEquals($result[0]->getValue(), 'hello');
-        $this->assertEquals($result[1]->getOccurrence(), 'must');
-        $this->assertEquals($result[1]->getValue(), 'world');
+        $this->assertCount(2, $terms);
+        $term = array_shift($terms);
+        $this->assertEquals('should', $term->getOccurrence());
+        $this->assertEquals('hello', $term->getValue());
+        $term = array_shift($terms);
+        $this->assertEquals('must', $term->getOccurrence());
+        $this->assertEquals('world', $term->getValue());
     }
 
     public function testParseShouldAndShould()
     {
-        $q = 'should1 should2';
+        $q = 'hello world';
 
-        $result = $this->parser->parse($q);
-        $expected = array(
-            array('text' => 'should1', 'occurrence' => 'should', 'type' => 'term'),
-            array('text' => 'should2', 'occurrence' => 'should', 'type' => 'term')
-        );
+        $terms = $this->parser->parse($q);
 
-        $this->assertEquals($expected, $result->all());
+        $this->assertCount(2, $terms);
+        $term = array_shift($terms);
+        $this->assertEquals('should', $term->getOccurrence());
+        $this->assertEquals('hello', $term->getValue());
+        $term = array_shift($terms);
+        $this->assertEquals('should', $term->getOccurrence());
+        $this->assertEquals('world', $term->getValue());
     }
 
     public function testParseShouldAndMustNot()
     {
-        $q = 'should -mustNot';
+        $q = 'hello -world';
 
-        $result = $this->parser->parse($q);
-        $expected = array(
-            array('text' => 'should', 'occurrence' => 'should', 'type' => 'term'),
-            array('text' => 'mustNot', 'occurrence' => 'mustNot', 'type' => 'term')
-        );
+        $terms = $this->parser->parse($q);
 
-        $this->assertEquals($expected, $result->all());
+        $this->assertCount(2, $terms);
+        $term = array_shift($terms);
+        $this->assertEquals('should', $term->getOccurrence());
+        $this->assertEquals('hello', $term->getValue());
+        $term = array_shift($terms);
+        $this->assertEquals('mustNot', $term->getOccurrence());
+        $this->assertEquals('world', $term->getValue());
     }
 
     public function testParseShouldAndMustntAndMust()
     {
-        $q = 'should -mustNot +must';
+        $q = 'hello -world +foo';
 
-        $result = $this->parser->parse($q);
-        $expected = array(
-            array('text' => 'should', 'occurrence' => 'should', 'type' => 'term'),
-            array('text' => 'mustNot', 'occurrence' => 'mustNot', 'type' => 'term'),
-            array('text' => 'must', 'occurrence' => 'must', 'type' => 'term')
-        );
+        $terms = $this->parser->parse($q);
 
-        $this->assertEquals($expected, $result->all());
+        $this->assertCount(3, $terms);
+        $term = array_shift($terms);
+        $this->assertEquals('should', $term->getOccurrence());
+        $this->assertEquals('hello', $term->getValue());
+        $term = array_shift($terms);
+        $this->assertEquals('mustNot', $term->getOccurrence());
+        $this->assertEquals('world', $term->getValue());
+        $term = array_shift($terms);
+        $this->assertEquals('must', $term->getOccurrence());
+        $this->assertEquals('foo', $term->getValue());
     }
 
     public function testParsePhraseAndShould()
     {
-        $q = '"test phrase" should';
+        $q = '"hello world" foo';
 
-        $result = $this->parser->parse($q);
-        $expected = array(
-            array('text' => 'test phrase', 'occurrence' => 'should', 'type' => 'phrase'),
-            array('text' => 'should', 'occurrence' => 'should', 'type' => 'term')
-        );
+        $terms = $this->parser->parse($q);
 
-        $this->assertEquals($expected, $result->all());
+        $this->assertCount(2, $terms);
+        $term = array_shift($terms);
+        $this->assertEquals('should', $term->getOccurrence());
+        $this->assertEquals(array('hello', 'world'), $term->getValue());
+        $term = array_shift($terms);
+        $this->assertEquals('should', $term->getOccurrence());
+        $this->assertEquals('foo', $term->getValue());
     }
 
     public function testParseMustAndPhrase()
     {
-        $q = '+must "test phrase"';
+        $q = '+foo "hello world"';
 
-        $result = $this->parser->parse($q);
-        $expected = array(
-            array('text' => 'must', 'occurrence' => 'must', 'type' => 'term'),
-            array('text' => 'test phrase', 'occurrence' => 'should', 'type' => 'phrase')
-        );
+        $terms = $this->parser->parse($q);
 
-        $this->assertEquals($expected, $result->all());
+        $this->assertCount(2, $terms);
+        $term = array_shift($terms);
+        $this->assertEquals($term->getOccurrence(), 'must');
+        $this->assertEquals($term->getValue(), 'foo');
+        $term = array_shift($terms);
+        $this->assertEquals($term->getOccurrence(), 'should');
+        $this->assertEquals($term->getValue(), array('hello', 'world'));
     }
 
     public function testParseMustAndPhraseAndMustnt()
     {
-        $q = '+must "test phrase" -mustNot';
+        $q = '+foo "hello world" -bar';
 
-        $result = $this->parser->parse($q);
-        $expected = array(
-            array('text' => 'must', 'occurrence' => 'must', 'type' => 'term'),
-            array('text' => 'test phrase', 'occurrence' => 'should', 'type' => 'phrase'),
-            array('text' => 'mustNot', 'occurrence' => 'mustNot', 'type' => 'term')
-        );
+        $terms = $this->parser->parse($q);
 
-        $this->assertEquals($expected, $result->all());
+        $this->assertCount(3, $terms);
+        $term = array_shift($terms);
+        $this->assertEquals('must', $term->getOccurrence());
+        $this->assertEquals('foo', $term->getValue());
+        $term = array_shift($terms);
+        $this->assertEquals('should', $term->getOccurrence());
+        $this->assertEquals(array('hello', 'world'), $term->getValue());
+        $term = array_shift($terms);
+        $this->assertEquals('mustNot', $term->getOccurrence());
+        $this->assertEquals('bar', $term->getValue());
     }
 
     public function testParseMissingPhraseEnd()
     {
-        $q = '"test phrase';
+        $q = '"hello world';
 
-        $result = $this->parser->parse($q);
-        $expected = array(
-            array('text' => 'test phrase', 'occurrence' => 'should', 'type' => 'phrase')
-        );
+        $terms = $this->parser->parse($q);
 
-        $this->assertEquals($expected, $result->all());
+        $this->assertCount(1, $terms);
+        $term = array_shift($terms);
+        $this->assertEquals('should', $term->getOccurrence());
+        $this->assertEquals(array('hello', 'world'), $term->getValue());
+    }
+
+    public function testParseMisplacedPhraseTermStart()
+    {
+        $q = 'foo bar"baz';
+
+        $terms = $this->parser->parse($q);
+
+        $this->assertCount(3, $terms);
+        $term = array_shift($terms);
+        $this->assertEquals('should', $term->getOccurrence());
+        $this->assertEquals('foo', $term->getValue());
+        $term = array_shift($terms);
+        $this->assertEquals('should', $term->getOccurrence());
+        $this->assertEquals('bar', $term->getValue());
+        $term = array_shift($terms);
+        $this->assertEquals('should', $term->getOccurrence());
+        $this->assertEquals('baz', $term->getValue());
     }
 
     public function testParseMisplacedPhraseStart()
     {
-        $q = 'should1 should2"phrase';
+        $q = 'foo bar"hello world';
 
-        $result = $this->parser->parse($q);
-        $expected = array(
-            array('text' => 'should1', 'occurrence' => 'should', 'type' => 'term'),
-            array('text' => 'should2', 'occurrence' => 'should', 'type' => 'term'),
-            array('text' => 'phrase', 'occurrence' => 'should', 'type' => 'term')
-        );
+        $terms = $this->parser->parse($q);
 
-        $this->assertEquals($expected, $result->all());
+        $this->assertCount(3, $terms);
+        $term = array_shift($terms);
+        $this->assertEquals('should', $term->getOccurrence());
+        $this->assertEquals('foo', $term->getValue());
+        $term = array_shift($terms);
+        $this->assertEquals('should', $term->getOccurrence());
+        $this->assertEquals('bar', $term->getValue());
+        $term = array_shift($terms);
+        $this->assertEquals('should', $term->getOccurrence());
+        $this->assertEquals(array('hello', 'world'), $term->getValue());
     }
 }

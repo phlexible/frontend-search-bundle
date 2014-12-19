@@ -34,6 +34,10 @@ class Term
      */
     public function __construct($value, $occurrence)
     {
+        if (is_array($value) && count($value) === 1) {
+            $value = current($value);
+        }
+
         $this->value = $value;
         $this->occurrence = $occurrence;
     }

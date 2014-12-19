@@ -30,20 +30,21 @@ class QueryBuilder
     public function build($queryString, array $fields)
     {
         $parser = new QueryStringParser();
-        $result = $parser->parse($queryString);
+        $terms = $parser->parse($queryString);
 
         $parts = array();
         $hasPhrase = false;
         $hasTerm = false;
-        foreach ($result->all() as $part) {
-            $parts[$part['occurrence']][$part['text']] = $part['type'];
-            if ($part['type'] === ParseResult::PHRASE) {
+        foreach ($terms as $term) {
+            if (is_array($term->getValue())) {
+                $parts[$term->getOccurrence()][implode(' ', $term->getValue())] = 'phrase';
                 $hasPhrase = true;
             } else {
+                $parts[$term->getOccurrence()][$term->getValue()] = 'term';
                 $hasTerm = true;
             }
         }
-print_r($parts);
+
         if (empty($parts[ParseResult::MUST]) && empty($parts[ParseResult::MUST_NOT]) && !$hasPhrase) {
             // only shoulds and no phrases, simple query string
             $query = new QueryString($queryString);
@@ -64,11 +65,9 @@ print_r($parts);
                         }
                     }
                     $method = 'add' . ucfirst($occurance);
-                    echo "$method()".PHP_EOL;
                     $boolQuery->$method($matchQuery);
                 }
-                //print_r($boolQuery);
-                die;
+
                 $query->addQuery($boolQuery);
             }
         }

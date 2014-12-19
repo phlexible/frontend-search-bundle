@@ -17,10 +17,9 @@ class Token
 {
     const MUST = 0;
     const MUST_NOT = 1;
-    const PHRASE_START = 2;
-    const PHRASE_END = 3;
-    const SPACE = 4;
-    const TERM = 5;
+    const QUOTE = 2;
+    const SPACE = 3;
+    const TERM = 4;
 
     /**
      * @var string
