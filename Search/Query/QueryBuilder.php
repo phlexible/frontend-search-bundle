@@ -30,45 +30,41 @@ class QueryBuilder
     public function build($queryString, array $fields)
     {
         $parser = new QueryStringParser();
-        $terms = $parser->parse($queryString);
 
-        $parts = array();
+        $occurrences = array();
         $hasPhrase = false;
         $hasTerm = false;
-        foreach ($terms as $term) {
+        foreach ($parser->parse($queryString) as $term) {
             if (is_array($term->getValue())) {
-                $parts[$term->getOccurrence()][implode(' ', $term->getValue())] = 'phrase';
+                $occurrences[$term->getOccurrence()][implode(' ', $term->getValue())] = 'phrase';
                 $hasPhrase = true;
             } else {
-                $parts[$term->getOccurrence()][$term->getValue()] = 'term';
+                $occurrences[$term->getOccurrence()][$term->getValue()] = 'term';
                 $hasTerm = true;
             }
         }
 
-        if (empty($parts[ParseResult::MUST]) && empty($parts[ParseResult::MUST_NOT]) && !$hasPhrase) {
+        if (empty($occurrences[ParseResult::MUST]) && empty($occurrences[ParseResult::MUST_NOT]) && !$hasPhrase) {
             // only shoulds and no phrases, simple query string
             $query = new QueryString($queryString);
         } else {
             // only terms, bool + match
-            $query = new DisMaxQuery();
-            foreach ($fields as $field => $boost) {
-                $boolQuery = new BoolQuery();
-                foreach ($parts as $occurance => $texts) {
+
+            $query = new BoolQuery();
+            foreach ($occurrences as $occurance => $terms) {
+                foreach ($terms as $term => $type) {
                     $matchQuery = new MatchQuery();
-                    foreach ($texts as $text => $type) {
-                        echo $text.PHP_EOL;
+                    foreach ($fields as $field => $boost) {
                         $matchQuery
-                            ->setFieldQuery($field, $text)
+                            ->setFieldQuery($field, $term)
                             ->setFieldBoost($field, $boost);
                         if ($type === 'phrase') {
                             $matchQuery->setFieldType($field, 'phrase');
                         }
                     }
                     $method = 'add' . ucfirst($occurance);
-                    $boolQuery->$method($matchQuery);
+                    $query->$method($matchQuery);
                 }
-
-                $query->addQuery($boolQuery);
             }
         }
 
