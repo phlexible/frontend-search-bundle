@@ -43,10 +43,12 @@ class ElementSearch
      * @param string $queryString
      * @param string $language
      * @param string $siterootId
+     * @param int    $limit
+     * @param int    $start
      *
      * @return array
      */
-    public function query($queryString, $language, $siterootId)
+    public function search($queryString, $language, $siterootId, $limit, $start = 0)
     {
         $filter = new BoolAndFilter();
         $filter
@@ -56,11 +58,13 @@ class ElementSearch
         $queryBuilder = new QueryBuilder();
 
         $query = $this->storage->createQuery()
+            ->setStart($start)
+            ->setSize($limit)
             ->setHighlight(
                 array(
                     'fields' => array(
                         'title' => array('fragment_size' => 20, 'number_of_fragments' => 1),
-                        'content' => array('fragment_size' => 100, 'number_of_fragments' => 2)
+                        'content' => array('fragment_size' => 400, 'number_of_fragments' => 2)
                     )
                 )
             )

@@ -32,6 +32,8 @@ class SearchController extends Controller
     {
         $queryString = trim($request->get('q', ''));
         $siterootId = $request->get('siterootId');
+        $limit = (int) $request->get('limit', 10);
+        $start = (int) $request->get('start', 0);
 
         if (strlen($queryString) == 0) {
             return new Response('');
@@ -43,7 +45,7 @@ class SearchController extends Controller
 
         $elementSearch = $this->get('phlexible_frontend_search.element_search');
 
-        $result = $elementSearch->query($queryString, $request->getLocale(), $siterootId);
+        $result = $elementSearch->search($queryString, $request->getLocale(), $siterootId, $limit, $start);
 
         $suggestions = array();
         if (!$result['totalHits']) {
@@ -52,7 +54,17 @@ class SearchController extends Controller
 
         $template = '::search/results.html.twig';
 
-        return $this->render($template, array('result' => $result, 'suggestions' => $suggestions));
+        return $this->render(
+            $template,
+            array(
+                'limit'       => $limit,
+                'start'       => $start,
+                'total'       => $result['totalHits'],
+                'hasMore'     => $result['totalHits'] > $limit + $start,
+                'result'      => $result,
+                'suggestions' => $suggestions,
+            )
+        );
     }
 
     /**
@@ -65,18 +77,20 @@ class SearchController extends Controller
     {
         $queryString = strtolower(trim($request->get('q')));
         $siterootId = $request->get('siterootId');
+        $limit = (int) $request->get('limit', 10);
+        $start = (int) $request->get('start', 0);
 
         if (strlen($queryString) == 0) {
-            return new Response('');
+            return new JsonResponse(array());
         }
 
         if (!mb_check_encoding($queryString, 'UTF-8')) {
-            return new Response('');
+            return new JsonResponse(array());
         }
 
         $elementSearch = $this->get('phlexible_frontend_search.element_search');
 
-        $result = $elementSearch->query($queryString, $request->getLocale(), $siterootId);
+        $result = $elementSearch->search($queryString, $request->getLocale(), $siterootId, $limit, $start);
 
         $suggestions = array();
         if (!$result['totalHits']) {
@@ -84,12 +98,26 @@ class SearchController extends Controller
         }
 
         $template = '::search/results.html.twig';
+        $view = $this->renderView(
+            $template,
+            array(
+                'limit'       => $limit,
+                'start'       => $start,
+                'total'       => $result['totalHits'],
+                'hasMore'     => $result['totalHits'] > $limit + $start,
+                'result'      => $result,
+                'suggestions' => $suggestions,
+            )
+        );
 
         return new JsonResponse(
             array(
+                'start'       => $start,
+                'limit'       => $limit,
+                'total'       => $result['totalHits'],
                 'result'      => $result,
                 'suggestions' => $suggestions,
-                'view'        => $this->renderView($template, array('result' => $result, 'suggestions' => $suggestions))
+                'view'        => $view
             )
         );
     }
