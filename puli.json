@@ -1,6 +1,6 @@
 {
     "version": "1.0",
     "resources": {
-        "/phlexible/icons/frontendsearch": "Resources/public/icons"
+        "/phlexible/frontendsearch/icons": "Resources/public/icons"
     }
 }
