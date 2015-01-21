@@ -8,6 +8,9 @@
 
 namespace Phlexible\Bundle\FrontendSearchBundle\Controller;
 
+use Pagerfanta\Adapter\ArrayAdapter;
+use Pagerfanta\Adapter\NullAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -30,10 +33,10 @@ class SearchController extends Controller
      */
     public function queryAction(Request $request)
     {
-        $queryString = trim($request->get('q', ''));
+        $queryString = trim($request->get('term', ''));
         $siterootId = $request->get('siterootId');
         $limit = (int) $request->get('limit', 10);
-        $start = (int) $request->get('start', 0);
+        $page = (int) $request->get('page', 1);
 
         if (strlen($queryString) == 0) {
             return new Response('');
@@ -45,6 +48,8 @@ class SearchController extends Controller
 
         $elementSearch = $this->get('phlexible_frontend_search.element_search');
 
+        $start = ($page - 1) * $limit;
+
         $result = $elementSearch->search($queryString, $request->getLocale(), $siterootId, $limit, $start);
 
         $suggestions = array();
@@ -54,15 +59,25 @@ class SearchController extends Controller
 
         $template = '::search/results.html.twig';
 
+        $adapter = new NullAdapter($result['totalHits']);
+        $pagerfanta = new Pagerfanta($adapter);
+
+        $pagerfanta
+            ->setMaxPerPage($limit)
+            ->setCurrentPage($page); // 1 by default
+
         return $this->render(
             $template,
             array(
+                'term'        => $queryString,
                 'limit'       => $limit,
                 'start'       => $start,
+                'page'        => $page,
                 'total'       => $result['totalHits'],
                 'hasMore'     => $result['totalHits'] > $limit + $start,
                 'result'      => $result,
                 'suggestions' => $suggestions,
+                'pager'       => $pagerfanta
             )
         );
     }
@@ -75,7 +90,7 @@ class SearchController extends Controller
      */
     public function queryJsonAction(Request $request)
     {
-        $queryString = strtolower(trim($request->get('q')));
+        $queryString = strtolower(trim($request->get('term')));
         $siterootId = $request->get('siterootId');
         $limit = (int) $request->get('limit', 10);
         $start = (int) $request->get('start', 0);
@@ -98,15 +113,28 @@ class SearchController extends Controller
         }
 
         $template = '::search/results.html.twig';
+
+        $page = floor($start / $limit) + 1;
+
+        $adapter = new ArrayAdapter($result['results']);
+        $pagerfanta = new Pagerfanta($adapter);
+
+        $pagerfanta
+            ->setMaxPerPage($limit)
+            ->setCurrentPage($page); // 1 by default
+
         $view = $this->renderView(
             $template,
             array(
+                'term'        => $queryString,
                 'limit'       => $limit,
                 'start'       => $start,
+                'page'        => $page,
                 'total'       => $result['totalHits'],
                 'hasMore'     => $result['totalHits'] > $limit + $start,
                 'result'      => $result,
                 'suggestions' => $suggestions,
+                'pager'       => $pagerfanta
             )
         );
 
@@ -152,7 +180,7 @@ class SearchController extends Controller
 }
          */
         $siterootId = $request->get('siterootId');
-        $queryString = strtolower(trim($request->get('q')));
+        $queryString = strtolower(trim($request->get('term')));
 
         $elementSearch = $this->get('phlexible_frontend_search.element_search');
 
@@ -195,7 +223,7 @@ class SearchController extends Controller
          */
 
         $siterootId = $request->get('siterootId');
-        $queryString = strtolower(trim($request->get('q')));
+        $queryString = strtolower(trim($request->get('term')));
 
         $elementSearch = $this->get('phlexible_frontend_search.element_search');
 

@@ -3,3 +3,12 @@ services:
         class: Phlexible\Bundle\FrontendSearchBundle\Search\ElementSearch
         arguments:
             - @phlexible_indexer.storage.default
+
+
+    phlexible_frontend_search.pagerfanta.view.twig:
+        class: Phlexible\Bundle\FrontendSearchBundle\Pagerfanta\TwigView
+        arguments:
+            - @twig
+            - { proximity: 2, previous_message: Anterior, next_message: Siguiente }
+        public: false
+        tags: [{ name: pagerfanta.view, alias: twig }]
