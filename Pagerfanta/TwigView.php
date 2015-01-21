@@ -32,6 +32,16 @@ class TwigView implements ViewInterface
     private $proximity;
 
     /**
+     * @var string
+     */
+    private $routeName;
+
+    /**
+     * @var string
+     */
+    private $ajaxRouteName;
+
+    /**
      * @var array
      */
     private $parameters = array();
@@ -83,6 +93,22 @@ class TwigView implements ViewInterface
         return $this->twig->render('::search/pager.html.twig', array(
             'view' => $this
         ));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRouteName()
+    {
+        return $this->routeName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAjaxRouteName()
+    {
+        return $this->ajaxRouteName;
     }
 
     /**
