@@ -14,7 +14,6 @@ use Phlexible\Bundle\IndexerBundle\Query\Filter\BoolAndFilter;
 use Phlexible\Bundle\IndexerBundle\Query\Filter\TermFilter;
 use Phlexible\Bundle\IndexerBundle\Query\Query\MultiMatchQuery;
 use Phlexible\Bundle\IndexerBundle\Query\Query\PrefixQuery;
-use Phlexible\Bundle\IndexerBundle\Query\Query\QueryString;
 use Phlexible\Bundle\IndexerBundle\Query\Suggest;
 use Phlexible\Bundle\IndexerBundle\Query\Suggest\TermSuggest;
 use Phlexible\Bundle\IndexerBundle\Storage\StorageInterface;
