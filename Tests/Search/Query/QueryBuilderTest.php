@@ -40,7 +40,7 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
             'query' => 'hello world'
         );
 
-        $this->assertInstanceOf('Phlexible\Bundle\IndexerBundle\Query\Query\QueryString', $query);
+        $this->assertInstanceOf('Elastica\Query\QueryString', $query);
         $this->assertEquals($expected, $query->getParams());
     }
 
@@ -50,13 +50,12 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
 
         $query = $this->builder->build($q, array('title' => 1.2, 'content' => 1.0));
 
-        $this->assertInstanceOf('Phlexible\Bundle\IndexerBundle\Query\Query\BoolQuery', $query);
-        $matchQueries = $query->getQueries();
-        $this->assertArrayHasKey('should', $matchQueries);
-        $this->assertCount(1, $matchQueries['should']);
-        $matchQuery = array_shift($matchQueries['should']);
-        $this->assertInstanceOf('Phlexible\Bundle\IndexerBundle\Query\Query\MatchQuery', $matchQuery);
-        $this->assertEquals(array('title' => array('query' => 'hello world', 'boost' => 1.2, 'type' => 'phrase'), 'content' => array('query' => 'hello world', 'boost' => 1.0, 'type' => 'phrase')), $matchQuery->getFields());
+        $this->assertInstanceOf('Elastica\Query\Bool', $query);
+        $params = $query->getParams();
+        $this->assertArrayHasKey('should', $params);
+        $this->assertCount(1, $params['should']);
+        $matchQuery = array_shift($params['should']);
+        $this->assertEquals(array('match' => array('title' => array('query' => 'hello world', 'boost' => 1.2, 'type' => 'phrase'), 'content' => array('query' => 'hello world', 'boost' => 1.0, 'type' => 'phrase'))), $matchQuery);
     }
 
     public function testBuildBool()
@@ -65,23 +64,20 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
 
         $query = $this->builder->build($q, array('title' => 1.2, 'content' => 1.0));
 
-        $this->assertInstanceOf('Phlexible\Bundle\IndexerBundle\Query\Query\BoolQuery', $query);
-        $matchQueries = $query->getQueries();
-        $this->assertArrayHasKey('must', $matchQueries);
-        $this->assertArrayHasKey('mustNot', $matchQueries);
-        $this->assertArrayHasKey('should', $matchQueries);
-        $this->assertCount(1, $matchQueries['must']);
-        $this->assertCount(1, $matchQueries['mustNot']);
-        $this->assertCount(1, $matchQueries['should']);
-        $matchQuery = array_shift($matchQueries['must']);
-        $this->assertInstanceOf('Phlexible\Bundle\IndexerBundle\Query\Query\MatchQuery', $matchQuery);
-        $this->assertEquals(array('title' => array('query' => 'foo', 'boost' => 1.2), 'content' => array('query' => 'foo', 'boost' => 1.0)), $matchQuery->getFields());
-        $matchQuery = array_shift($matchQueries['mustNot']);
-        $this->assertInstanceOf('Phlexible\Bundle\IndexerBundle\Query\Query\MatchQuery', $matchQuery);
-        $this->assertEquals(array('title' => array('query' => 'bar', 'boost' => 1.2), 'content' => array('query' => 'bar', 'boost' => 1.0)), $matchQuery->getFields());
-        $matchQuery = array_shift($matchQueries['should']);
-        $this->assertInstanceOf('Phlexible\Bundle\IndexerBundle\Query\Query\MatchQuery', $matchQuery);
-        $this->assertEquals(array('title' => array('query' => 'baz', 'boost' => 1.2), 'content' => array('query' => 'baz', 'boost' => 1.0)), $matchQuery->getFields());
+        $this->assertInstanceOf('Elastica\Query\Bool', $query);
+        $params = $query->getParams();
+        $this->assertArrayHasKey('must', $params);
+        $this->assertArrayHasKey('must_not', $params);
+        $this->assertArrayHasKey('should', $params);
+        $this->assertCount(1, $params['must']);
+        $this->assertCount(1, $params['must_not']);
+        $this->assertCount(1, $params['should']);
+        $matchQuery = array_shift($params['must']);
+        $this->assertEquals(array('match' => array('title' => array('query' => 'foo', 'boost' => 1.2), 'content' => array('query' => 'foo', 'boost' => 1.0))), $matchQuery);
+        $matchQuery = array_shift($params['must_not']);
+        $this->assertEquals(array('match' => array('title' => array('query' => 'bar', 'boost' => 1.2), 'content' => array('query' => 'bar', 'boost' => 1.0))), $matchQuery);
+        $matchQuery = array_shift($params['should']);
+        $this->assertEquals(array('match' => array('title' => array('query' => 'baz', 'boost' => 1.2), 'content' => array('query' => 'baz', 'boost' => 1.0))), $matchQuery);
     }
 
     public function testBuildComplex()
@@ -90,25 +86,21 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
 
         $query = $this->builder->build($q, array('title' => 1.2, 'content' => 1.0));
 
-        $this->assertInstanceOf('Phlexible\Bundle\IndexerBundle\Query\Query\BoolQuery', $query);
-        $matchQueries = $query->getQueries();
-        $this->assertArrayHasKey('must', $matchQueries);
-        $this->assertArrayHasKey('mustNot', $matchQueries);
-        $this->assertArrayHasKey('should', $matchQueries);
-        $this->assertCount(2, $matchQueries['should']);
-        $this->assertCount(1, $matchQueries['must']);
-        $this->assertCount(1, $matchQueries['mustNot']);
-        $matchQuery = array_shift($matchQueries['should']);
-        $this->assertInstanceOf('Phlexible\Bundle\IndexerBundle\Query\Query\MatchQuery', $matchQuery);
-        $this->assertEquals(array('title' => array('query' => 'foo', 'boost' => 1.2), 'content' => array('query' => 'foo', 'boost' => 1.0)), $matchQuery->getFields());
-        $matchQuery = array_shift($matchQueries['should']);
-        $this->assertInstanceOf('Phlexible\Bundle\IndexerBundle\Query\Query\MatchQuery', $matchQuery);
-        $this->assertEquals(array('title' => array('query' => 'sit amet', 'boost' => 1.2, 'type' => 'phrase'), 'content' => array('query' => 'sit amet', 'boost' => 1.0, 'type' => 'phrase')), $matchQuery->getFields());
-        $matchQuery = array_shift($matchQueries['must']);
-        $this->assertInstanceOf('Phlexible\Bundle\IndexerBundle\Query\Query\MatchQuery', $matchQuery);
-        $this->assertEquals(array('title' => array('query' => 'bar', 'boost' => 1.2), 'content' => array('query' => 'bar', 'boost' => 1.0)), $matchQuery->getFields());
-        $matchQuery = array_shift($matchQueries['mustNot']);
-        $this->assertInstanceOf('Phlexible\Bundle\IndexerBundle\Query\Query\MatchQuery', $matchQuery);
-        $this->assertEquals(array('title' => array('query' => 'baz', 'boost' => 1.2), 'content' => array('query' => 'baz', 'boost' => 1.0)), $matchQuery->getFields());
+        $this->assertInstanceOf('Elastica\Query\Bool', $query);
+        $params = $query->getParams();
+        $this->assertArrayHasKey('must', $params);
+        $this->assertArrayHasKey('must_not', $params);
+        $this->assertArrayHasKey('should', $params);
+        $this->assertCount(2, $params['should']);
+        $this->assertCount(1, $params['must']);
+        $this->assertCount(1, $params['must_not']);
+        $matchQuery = array_shift($params['should']);
+        $this->assertEquals(array('match' => array('title' => array('query' => 'foo', 'boost' => 1.2), 'content' => array('query' => 'foo', 'boost' => 1.0))), $matchQuery);
+        $matchQuery = array_shift($params['should']);
+        $this->assertEquals(array('match' => array('title' => array('query' => 'sit amet', 'boost' => 1.2, 'type' => 'phrase'), 'content' => array('query' => 'sit amet', 'boost' => 1.0, 'type' => 'phrase'))), $matchQuery);
+        $matchQuery = array_shift($params['must']);
+        $this->assertEquals(array('match' => array('title' => array('query' => 'bar', 'boost' => 1.2), 'content' => array('query' => 'bar', 'boost' => 1.0))), $matchQuery);
+        $matchQuery = array_shift($params['must_not']);
+        $this->assertEquals(array('match' => array('title' => array('query' => 'baz', 'boost' => 1.2), 'content' => array('query' => 'baz', 'boost' => 1.0))), $matchQuery);
     }
 }

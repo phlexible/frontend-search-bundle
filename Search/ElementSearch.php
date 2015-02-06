@@ -8,14 +8,11 @@
 
 namespace Phlexible\Bundle\FrontendSearchBundle\Search;
 
+use Elastica\Aggregation;
+use Elastica\Filter;
+use Elastica\Query;
+use Elastica\Suggest;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryBuilder;
-use Phlexible\Bundle\IndexerBundle\Query\Aggregation\TermsAggregation;
-use Phlexible\Bundle\IndexerBundle\Query\Filter\BoolAndFilter;
-use Phlexible\Bundle\IndexerBundle\Query\Filter\TermFilter;
-use Phlexible\Bundle\IndexerBundle\Query\Query\MultiMatchQuery;
-use Phlexible\Bundle\IndexerBundle\Query\Query\PrefixQuery;
-use Phlexible\Bundle\IndexerBundle\Query\Suggest;
-use Phlexible\Bundle\IndexerBundle\Query\Suggest\TermSuggest;
 use Phlexible\Bundle\IndexerBundle\Storage\StorageInterface;
 
 /**
@@ -49,15 +46,16 @@ class ElementSearch
      */
     public function search($queryString, $language, $siterootId, $limit, $start = 0)
     {
-        $filter = new BoolAndFilter();
+        $filter = new Filter\BoolAnd();
         $filter
             //->addFilter(new TermFilter(array('siterootId' => $siterootId)))
-            ->addFilter(new TermFilter(array('language' => $language)));
+            ->addFilter(new Filter\Term(array('language' => $language)));
 
         $queryBuilder = new QueryBuilder();
 
-        $query = $this->storage->createQuery()
-            ->setStart($start)
+        $query = new Query();
+        $query
+            ->setFrom($start)
             ->setSize($limit)
             ->setHighlight(
                 array(
@@ -67,10 +65,13 @@ class ElementSearch
                     )
                 )
             )
-            ->setFilter($filter)
+            ->setPostFilter($filter)
             ->setQuery($queryBuilder->build($queryString, array('title' => 1.2, 'content' => 1.0)));
 
-        return $this->storage->query($query);
+        $index = $this->storage->getIndex();
+        /* @var $index \Elastica\Index */
+
+        return $index->search($query);
     }
 
     /**
@@ -82,30 +83,33 @@ class ElementSearch
      */
     public function suggest($queryString, $language, $siterootId)
     {
-        $suggestion = new TermSuggest('didYouMean', 'did_you_mean');
+        $suggestion = new Suggest\Term('didYouMean', 'did_you_mean');
         $suggestions = new Suggest($suggestion);
         $suggestions->setGlobalText($queryString);
 
-        $filter = new BoolAndFilter();
+        $filter = new Filter\BoolAnd();
         $filter
         //->addFilter(new TermFilter(array('siterootId' => $siterootId)))
-            ->addFilter(new TermFilter(array('language' => $language)));
+            ->addFilter(new Filter\Term(array('language' => $language)));
 
-        $query = new MultiMatchQuery();
-        $query
+        $multiMatchQuery = new Query\MultiMatch();
+        $multiMatchQuery
             ->setQuery($queryString)
             ->setFields(array('title', 'content'));
 
-        $q = $this->storage->createQuery()
-            ->setQuery($query)
-            ->setFilter($filter)
+        $query = new Query();
+        $query
+            ->setQuery($multiMatchQuery)
+            ->setPostFilter($filter)
             ->setSuggest($suggestions);
 
-        $results = $this->storage->query($q);
+        $index = $this->storage->getIndex();
+        /* @var $index \Elastica\Index */
+        $results = $index->search($query);
 
         $suggestions = array();
-        if (!empty($results['suggest']['didYouMean'][0]['options'])) {
-            $suggestions = $results['suggest']['didYouMean'][0]['options'];
+        if (!empty($results->getSuggests()['didYouMean'][0]['options'])) {
+            $suggestions = $results->getSuggests()['didYouMean'][0]['options'];
         }
 
         return $suggestions;
@@ -120,27 +124,30 @@ class ElementSearch
      */
     public function autocomplete($queryString, $language, $siterootId)
     {
-        $filter = new BoolAndFilter();
+        $filter = new Filter\BoolAnd();
         $filter
             //->addFilter(new TermFilter(array('siterootId' => $siterootId)))
-            ->addFilter(new TermFilter(array('language' => $language)));
+            ->addFilter(new Filter\Term(array('language' => $language)));
 
-        $aggregation = new TermsAggregation('autocomplete');
+        $aggregation = new Aggregation\Terms('autocomplete');
         $aggregation
             ->setField('autocomplete')
             ->setOrder('_count', 'desc')
             ->setInclude("$queryString.*", '');
 
-        $query = $this->storage->createQuery()
+        $query = new Query();
+        $query
             ->setSize(0)
-            ->setQuery(new PrefixQuery(array('autocomplete' => $queryString)))
-            ->setFilter($filter)
+            ->setQuery(new Query\Prefix(array('autocomplete' => $queryString)))
+            ->setPostFilter($filter)
             ->addAggregation($aggregation);
 
-        $results = $this->storage->query($query);
+        $index = $this->storage->getIndex();
+        /* @var $index \Elastica\Index */
+        $results = $index->search($query);
 
         $autocompletes = array();
-        foreach ($results['aggregations']['autocomplete']['buckets'] as $bucket) {
+        foreach ($results->getAggregation('autocomplete')['buckets'] as $bucket) {
             $autocompletes[] = array(
                 'value' => $bucket['key'],
                 'count' => $bucket['doc_count']

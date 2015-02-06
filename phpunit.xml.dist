@@ -9,7 +9,7 @@
          syntaxCheck="true"
          verbose="true">
     <testsuites>
-        <testsuite name="frontendsearch">
+        <testsuite name="frontend-search-bundle">
             <directory>.</directory>
         </testsuite>
     </testsuites>

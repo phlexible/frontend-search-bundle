@@ -8,11 +8,7 @@
 
 namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query;
 
-use Phlexible\Bundle\IndexerBundle\Query\Query\BoolQuery;
-use Phlexible\Bundle\IndexerBundle\Query\Query\DisMaxQuery;
-use Phlexible\Bundle\IndexerBundle\Query\Query\MatchQuery;
-use Phlexible\Bundle\IndexerBundle\Query\Query\QueryInterface;
-use Phlexible\Bundle\IndexerBundle\Query\Query\QueryString;
+use Elastica\Query;
 
 /**
  * Query builder
@@ -25,7 +21,7 @@ class QueryBuilder
      * @param string $queryString
      * @param array  $fields
      *
-     * @return QueryInterface
+     * @return Query|Query\Bool
      */
     public function build($queryString, array $fields)
     {
@@ -46,14 +42,14 @@ class QueryBuilder
 
         if (empty($occurrences[ParseResult::MUST]) && empty($occurrences[ParseResult::MUST_NOT]) && !$hasPhrase) {
             // only shoulds and no phrases, simple query string
-            $query = new QueryString($queryString);
+            $query = new Query\QueryString($queryString);
         } else {
             // only terms, bool + match
 
-            $query = new BoolQuery();
+            $query = new Query\Bool();
             foreach ($occurrences as $occurance => $terms) {
                 foreach ($terms as $term => $type) {
-                    $matchQuery = new MatchQuery();
+                    $matchQuery = new Query\Match();
                     foreach ($fields as $field => $boost) {
                         $matchQuery
                             ->setFieldQuery($field, $term)

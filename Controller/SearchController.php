@@ -53,13 +53,13 @@ class SearchController extends Controller
         $result = $elementSearch->search($queryString, $request->getLocale(), $siterootId, $limit, $start);
 
         $suggestions = array();
-        if (!$result['totalHits']) {
+        if (!$result->getTotalHits()) {
             $suggestions = $elementSearch->suggest($queryString, $request->getLocale(), $siterootId);
         }
 
         $template = '::search/results.html.twig';
 
-        $adapter = new NullAdapter($result['totalHits']);
+        $adapter = new NullAdapter($result->getTotalHits());
         $pagerfanta = new Pagerfanta($adapter);
 
         $pagerfanta
@@ -73,8 +73,8 @@ class SearchController extends Controller
                 'limit'       => $limit,
                 'start'       => $start,
                 'page'        => $page,
-                'total'       => $result['totalHits'],
-                'hasMore'     => $result['totalHits'] > $limit + $start,
+                'total'       => $result->getTotalHits(),
+                'hasMore'     => $result->getTotalHits() > $limit + $start,
                 'result'      => $result,
                 'suggestions' => $suggestions,
                 'pager'       => $pagerfanta
