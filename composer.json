@@ -2,8 +2,8 @@
     "name": "phlexible/frontend-search-bundle",
     "description": "phlexible frontend search bundle",
     "license": "proprietary",
-	"type": "symfony-bundle",
-	"keywords": ["indexer", "search"],
+    "type": "symfony-bundle",
+    "keywords": ["indexer", "search"],
     "autoload": {
         "psr-4": {
             "Phlexible\\Bundle\\FrontendSearchBundle\\": ""
