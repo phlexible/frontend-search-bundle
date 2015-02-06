@@ -10,9 +10,6 @@ namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query;
 
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryStringParser;
 
-require_once __DIR__ . '/../../../Search/Query/ParseResult.php';
-require_once __DIR__ . '/../../../Search/Query/QueryStringParser.php';
-
 /**
  * Query string parser test
  *

@@ -8,8 +8,6 @@
 
 namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query;
 
-require_once __DIR__ . '/../../../Search/Query/Tokenizer.php';
-
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Token;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Tokenizer;
 

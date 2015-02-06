@@ -10,10 +10,6 @@ namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query;
 
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryBuilder;
 
-require_once __DIR__ . '/../../../Search/Query/ParseResult.php';
-require_once __DIR__ . '/../../../Search/Query/QueryStringParser.php';
-require_once __DIR__ . '/../../../Search/Query/QueryBuilder.php';
-
 /**
  * Query builder test
  *
