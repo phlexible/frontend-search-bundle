@@ -4,11 +4,10 @@ services:
         arguments:
             - @phlexible_indexer.storage.default
 
-
-    phlexible_frontend_search.pagerfanta.view.twig:
+    phlexible_frontend_search.pagerfanta.twig_view:
         class: Phlexible\Bundle\FrontendSearchBundle\Pagerfanta\TwigView
         arguments:
             - @twig
-            - { proximity: 2, previous_message: Anterior, next_message: Siguiente }
+            - %phlexible_frontend_search.pager.template%
         public: false
-        tags: [{ name: pagerfanta.view, alias: twig }]
+        tags: [{ name: pagerfanta.view, alias: search_twig }]

@@ -32,5 +32,7 @@ class PhlexibleFrontendSearchExtension extends Extension
         $config = $this->processConfiguration($configuration, $config);
 
         $container->setParameter('phlexible_frontend_search.suggestions.size', $config['suggestions']['size']);
+        $container->setParameter('phlexible_frontend_search.pager.template', $config['pager']['template']);
+        $container->setParameter('phlexible_frontend_search.results.template', $config['results']['template']);
     }
 }

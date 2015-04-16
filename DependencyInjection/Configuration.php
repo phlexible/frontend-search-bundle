@@ -28,6 +28,18 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->arrayNode('results')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('template')->defaultValue('PhlexibleFrontendSearchBundle::results.html.twig')->end()
+                    ->end()
+                ->end()
+                ->arrayNode('pager')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('template')->defaultValue('PhlexibleFrontendSearchBundle::pager.html.twig')->end()
+                    ->end()
+                ->end()
                 ->arrayNode('suggestions')
                     ->addDefaultsIfNotSet()
                     ->children()

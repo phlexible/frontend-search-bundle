@@ -57,7 +57,7 @@ class SearchController extends Controller
             $suggestions = $elementSearch->suggest($queryString, $request->getLocale(), $siterootId);
         }
 
-        $template = '::search/results.html.twig';
+        $template = $this->container->getParameter('phlexible_frontend_search.results.template');
 
         $adapter = new NullAdapter($result->getTotalHits());
         $pagerfanta = new Pagerfanta($adapter);
@@ -70,6 +70,7 @@ class SearchController extends Controller
             $template,
             array(
                 'term'        => $queryString,
+                'siterootId'  => $siterootId,
                 'limit'       => $limit,
                 'start'       => $start,
                 'page'        => $page,
@@ -93,7 +94,7 @@ class SearchController extends Controller
         $queryString = strtolower(trim($request->get('term')));
         $siterootId = $request->get('siterootId');
         $limit = (int) $request->get('limit', 10);
-        $start = (int) $request->get('start', 0);
+        $page = (int) $request->get('page', 1);
 
         if (strlen($queryString) == 0) {
             return new JsonResponse(array());
@@ -105,18 +106,18 @@ class SearchController extends Controller
 
         $elementSearch = $this->get('phlexible_frontend_search.element_search');
 
+        $start = ($page - 1) * $limit;
+
         $result = $elementSearch->search($queryString, $request->getLocale(), $siterootId, $limit, $start);
 
         $suggestions = array();
-        if (!$result['totalHits']) {
+        if (!$result->getTotalHits()) {
             $suggestions = $elementSearch->suggest($queryString, $request->getLocale(), $siterootId);
         }
 
-        $template = '::search/results.html.twig';
+        $template = $this->container->getParameter('phlexible_frontend_search.results.template');
 
-        $page = floor($start / $limit) + 1;
-
-        $adapter = new ArrayAdapter($result['results']);
+        $adapter = new ArrayAdapter($result->getResults());
         $pagerfanta = new Pagerfanta($adapter);
 
         $pagerfanta
@@ -127,11 +128,12 @@ class SearchController extends Controller
             $template,
             array(
                 'term'        => $queryString,
+                'siterootId'  => $siterootId,
                 'limit'       => $limit,
                 'start'       => $start,
                 'page'        => $page,
-                'total'       => $result['totalHits'],
-                'hasMore'     => $result['totalHits'] > $limit + $start,
+                'total'       => $result->getTotalHits(),
+                'hasMore'     => $result->getTotalHits() > $limit + $start,
                 'result'      => $result,
                 'suggestions' => $suggestions,
                 'pager'       => $pagerfanta
@@ -142,7 +144,7 @@ class SearchController extends Controller
             array(
                 'start'       => $start,
                 'limit'       => $limit,
-                'total'       => $result['totalHits'],
+                'total'       => $result->getTotalHits(),
                 'result'      => $result,
                 'suggestions' => $suggestions,
                 'view'        => $view

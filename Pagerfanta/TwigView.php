@@ -22,6 +22,11 @@ class TwigView implements ViewInterface
     private $twig;
 
     /**
+     * @var string
+     */
+    private $template;
+
+    /**
      * @var PagerfantaInterface
      */
     private $pagerfanta;
@@ -54,6 +59,11 @@ class TwigView implements ViewInterface
     /**
      * @var int
      */
+    private $maxPerPage;
+
+    /**
+     * @var int
+     */
     private $nbPages;
 
     /**
@@ -68,10 +78,12 @@ class TwigView implements ViewInterface
 
     /**
      * @param \Twig_Environment $twig
+     * @param string            $template
      */
-    public function __construct(\Twig_Environment $twig)
+    public function __construct(\Twig_Environment $twig, $template)
     {
         $this->twig = $twig;
+        $this->template = $template;
     }
 
     /**
@@ -81,6 +93,7 @@ class TwigView implements ViewInterface
     {
         $this->pagerfanta = $pagerfanta;
         $this->currentPage = $pagerfanta->getCurrentPage();
+        $this->maxPerPage = $pagerfanta->getMaxPerPage();
         $this->nbPages = $pagerfanta->getNbPages();
 
         $this->proximity = isset($options['proximity']) ? (int) $options['proximity'] : $this->getDefaultProximity();
@@ -90,7 +103,7 @@ class TwigView implements ViewInterface
 
         $this->calculateStartAndEndPage();
 
-        return $this->twig->render('::search/pager.html.twig', array(
+        return $this->twig->render($this->template, array(
             'view' => $this
         ));
     }
@@ -168,6 +181,16 @@ class TwigView implements ViewInterface
     public function getCurrentPage()
     {
         return $this->currentPage;
+    }
+
+    /**
+     * Returns the maximum items per page.
+     *
+     * @return integer
+     */
+    public function getMaxPerPage()
+    {
+        return $this->maxPerPage;
     }
 
     /**

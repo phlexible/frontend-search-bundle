@@ -1,0 +1,55 @@
+{% spaceless %}
+    {%- macro main(view, page) -%}
+        {{- path(view.routeName, {page: page}|merge(view.parameters)) -}}
+    {%- endmacro -%}
+
+    {%- macro ajax(view, page) -%}
+        {{- path(view.ajaxRouteName, {page: page}|merge(view.parameters)) -}}
+    {%- endmacro -%}
+
+    {% import _self as href %}
+
+    <div>
+        {% if view.hasPreviousPage %}
+            {# previous #}
+            <a href="{{ href.main(view, view.previousPage) }}" data-url="{{ href.ajax(view, view.previousPage) }}"><span>{{ "pager.previous"|trans }}</span></a>
+        {% else %}
+            <span>{{ "pager.previous"|trans }}</span>
+        {% endif %}
+
+        {% if view.startPage == 2 %}
+            <a href="{{ href.main(view, 1) }}" data-url="{{ href.ajax(view, 1) }}">1</a>
+        {% endif %}
+
+        {% if view.startPage > 2 %}
+            {# separator if start page > 3#}
+            <span>{{ "pager.seperator"|trans|raw }}</span>
+        {% endif %}
+
+        {% for page in range(view.startPage, view.endPage) %}
+            {# rolling pages #}
+            {% if view.currentPage == page %}
+                <span><b>{{ page }}</b></span>
+            {% else %}
+                <a href="{{ href.main(view, page) }}" data-url="{{ href.ajax(view, page) }}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if view.endPage == view.toLast(2) %}
+            {# second last if end page = total - 3 #}
+            <a href="{{ href.main(view, view.toLast(1)) }}" data-url="{{ href.ajax(view, view.toLast(1)) }}">{{ view.toLast(1) }}</a>
+        {% endif %}
+
+        {% if view.endPage < view.nbPages-1 %}
+            {# separator if end page < total - 3 #}
+            <span>{{ "pager.seperator"|trans|raw }}</span>
+        {% endif %}
+
+        {% if view.hasNextPage %}
+            {# next #}
+            <a href="{{ href.main(view, view.nextPage) }}" data-url="{{ href.main(view, view.nextPage) }}"><span>{{ "pager.next"|trans }}</span></a>
+        {% else %}
+            <span>{{ "pager.next"|trans }}</span>
+        {% endif %}
+    </div>
+{% endspaceless %}

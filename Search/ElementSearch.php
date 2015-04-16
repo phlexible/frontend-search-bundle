@@ -10,7 +10,9 @@ namespace Phlexible\Bundle\FrontendSearchBundle\Search;
 
 use Elastica\Aggregation;
 use Elastica\Filter;
+use Elastica\Index;
 use Elastica\Query;
+use Elastica\ResultSet;
 use Elastica\Suggest;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryBuilder;
 use Phlexible\Bundle\IndexerBundle\Storage\StorageInterface;
@@ -42,13 +44,13 @@ class ElementSearch
      * @param int    $limit
      * @param int    $start
      *
-     * @return array
+     * @return ResultSet
      */
     public function search($queryString, $language, $siterootId, $limit, $start = 0)
     {
         $filter = new Filter\BoolAnd();
         $filter
-            //->addFilter(new TermFilter(array('siterootId' => $siterootId)))
+            ->addFilter(new Filter\Term(array('siterootId' => $siterootId)))
             ->addFilter(new Filter\Term(array('language' => $language)));
 
         $queryBuilder = new QueryBuilder();
@@ -69,7 +71,7 @@ class ElementSearch
             ->setQuery($queryBuilder->build($queryString, array('title' => 1.2, 'content' => 1.0)));
 
         $index = $this->storage->getIndex();
-        /* @var $index \Elastica\Index */
+        /* @var $index Index */
 
         return $index->search($query);
     }
@@ -89,7 +91,7 @@ class ElementSearch
 
         $filter = new Filter\BoolAnd();
         $filter
-        //->addFilter(new TermFilter(array('siterootId' => $siterootId)))
+            ->addFilter(new Filter\Term(array('siterootId' => $siterootId)))
             ->addFilter(new Filter\Term(array('language' => $language)));
 
         $multiMatchQuery = new Query\MultiMatch();
@@ -104,7 +106,7 @@ class ElementSearch
             ->setSuggest($suggestions);
 
         $index = $this->storage->getIndex();
-        /* @var $index \Elastica\Index */
+        /* @var $index Index */
         $results = $index->search($query);
 
         $suggestions = array();
@@ -126,7 +128,7 @@ class ElementSearch
     {
         $filter = new Filter\BoolAnd();
         $filter
-            //->addFilter(new TermFilter(array('siterootId' => $siterootId)))
+            ->addFilter(new Filter\Term(array('siterootId' => $siterootId)))
             ->addFilter(new Filter\Term(array('language' => $language)));
 
         $aggregation = new Aggregation\Terms('autocomplete');
@@ -143,7 +145,7 @@ class ElementSearch
             ->addAggregation($aggregation);
 
         $index = $this->storage->getIndex();
-        /* @var $index \Elastica\Index */
+        /* @var $index Index */
         $results = $index->search($query);
 
         $autocompletes = array();

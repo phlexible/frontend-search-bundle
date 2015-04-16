@@ -1,0 +1,23 @@
+{% if result.results %}
+    <p>{{ "search.results--heading"|transchoice(result.totalHits) }}:</p>
+    {% for result in result.results %}
+        <div class="search-result">
+            <h2><a href="{{ path(tree_node(result.data.tid)) }}">{{ result.highlights.title[0]|default(result.data.title)|raw }}</a></h2>
+            <p>{{ result.highlights.content[0]|default(result.data.content)|raw }}</p>
+            <a href="{{ path(tree_node(result.data.tid)) }}">{{ "more"|trans({'%title': result.highlights.title[0]|default(result.data.title)})|raw }}</a>
+        </div>
+    {% endfor %}
+
+    {{ pagerfanta(pager, 'search_twig', {proximity: 1, routeName: 46, ajaxRouteName: 'frontendsearch_query', parameters: {term: term, limit: limit, siterootId: siterootId}}) }}
+{% else %}
+    <h2>{{ "search.results--heading"|transchoice(result.totalHits) }}</h2>
+
+    {% if suggestions %}
+        <h3>{{ "search.suggestion--heading"|trans }}</h3>
+        <ul>
+            {% for suggestion in suggestions %}
+                <li><a href="?term={{ suggestion.text }}">{{ suggestion.text }}</a> </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endif %}
