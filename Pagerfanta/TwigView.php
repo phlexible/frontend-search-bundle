@@ -97,8 +97,12 @@ class TwigView implements ViewInterface
         $this->nbPages = $pagerfanta->getNbPages();
 
         $this->proximity = isset($options['proximity']) ? (int) $options['proximity'] : $this->getDefaultProximity();
-        $this->routeName = $options['routeName'];
-        $this->ajaxRouteName = $options['ajaxRouteName'];
+        if (!empty($options['routeName'])) {
+            $this->routeName = $options['routeName'];
+        }
+        if (!empty($options['ajaxRouteName'])) {
+            $this->ajaxRouteName = $options['ajaxRouteName'];
+        }
         $this->parameters = isset($options['parameters']) ? $options['parameters'] : array();
 
         $this->calculateStartAndEndPage();
