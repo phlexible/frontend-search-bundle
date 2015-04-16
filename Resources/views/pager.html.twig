@@ -1,10 +1,10 @@
 {% spaceless %}
     {%- macro main(view, page) -%}
-        {{- path(view.routeName, {page: page}|merge(view.parameters)) -}}
+        {{- path(view.option("routeName"), {page: page}|merge(view.parameters)) -}}
     {%- endmacro -%}
 
     {%- macro ajax(view, page) -%}
-        {{- path(view.ajaxRouteName, {page: page}|merge(view.parameters)) -}}
+        {{- path(view.option("ajaxRouteName"), {page: page}|merge(view.parameters)) -}}
     {%- endmacro -%}
 
     {% import _self as href %}

@@ -37,19 +37,14 @@ class TwigView implements ViewInterface
     private $proximity;
 
     /**
-     * @var string
+     * @var array
      */
-    private $routeName;
-
-    /**
-     * @var string
-     */
-    private $ajaxRouteName;
+    private $parameters = array();
 
     /**
      * @var array
      */
-    private $parameters = array();
+    private $options = array();
 
     /**
      * @var int
@@ -97,13 +92,8 @@ class TwigView implements ViewInterface
         $this->nbPages = $pagerfanta->getNbPages();
 
         $this->proximity = isset($options['proximity']) ? (int) $options['proximity'] : $this->getDefaultProximity();
-        if (!empty($options['routeName'])) {
-            $this->routeName = $options['routeName'];
-        }
-        if (!empty($options['ajaxRouteName'])) {
-            $this->ajaxRouteName = $options['ajaxRouteName'];
-        }
         $this->parameters = isset($options['parameters']) ? $options['parameters'] : array();
+        $this->options = $options;
 
         $this->calculateStartAndEndPage();
 
@@ -113,19 +103,26 @@ class TwigView implements ViewInterface
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getRouteName()
+    public function getOptions()
     {
-        return $this->routeName;
+        return $this->options;
     }
 
     /**
+     * @param string $name
+     * @param mixed  $default
+     *
      * @return mixed
      */
-    public function getAjaxRouteName()
+    public function getOption($name, $default = null)
     {
-        return $this->ajaxRouteName;
+        if (isset($this->options[$name])) {
+            return $this->options[$name];
+        }
+
+        return $default;
     }
 
     /**
