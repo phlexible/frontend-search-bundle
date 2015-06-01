@@ -55,7 +55,7 @@ class QueryCommand extends ContainerAwareCommand
         if ($filter) {
             list($field, $value) = explode(':', $filter);
             $filter = new Filter\Term(array($field => $value));
-            $query->setFilter($filter);
+            $query->setPostFilter($filter);
         }
 
         $facet = $input->getOption('facet');
