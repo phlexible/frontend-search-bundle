@@ -11,7 +11,7 @@
     },
     "require": {
         "php": ">=5.3.0",
-        "phlexible/indexer-element-bundle": "~1.0",
+        "phlexible/indexer-element-bundle": "dev-refactorings",
         "white-october/pagerfanta-bundle": "~1.0",
         "ruflin/elastica": "~1.4"
     },
