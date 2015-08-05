@@ -203,6 +203,16 @@ class TwigView implements ViewInterface
     {
         return $this->nbPages;
     }
+    
+    /**
+     * Returns the number of results.
+     *
+     * @return integer
+     */
+    public function getNbResults()
+    {
+        return $this->pagerfanta->getNbResults();
+    }
 
     /**
      * Returns the start page
