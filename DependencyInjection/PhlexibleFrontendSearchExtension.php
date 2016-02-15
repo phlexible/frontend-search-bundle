@@ -33,6 +33,7 @@ class PhlexibleFrontendSearchExtension extends Extension
 
         $container->setParameter('phlexible_frontend_search.suggestions.size', $config['suggestions']['size']);
         $container->setParameter('phlexible_frontend_search.pager.template', $config['pager']['template']);
+        $container->setParameter('phlexible_frontend_search.results.default_search_route_name', $config['results']['default_search_route_name']);
         $container->setParameter('phlexible_frontend_search.results.template', $config['results']['template']);
     }
 }

@@ -11,8 +11,8 @@ namespace Phlexible\Bundle\FrontendSearchBundle\Controller;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Adapter\NullAdapter;
 use Pagerfanta\Pagerfanta;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,6 +34,7 @@ class SearchController extends Controller
     public function queryAction(Request $request)
     {
         $queryString = trim($request->get('term', ''));
+        $searchRouteName = $request->get('searchRouteName');
         $siterootId = $request->get('siterootId');
         $limit = (int) $request->get('limit', 10);
         $page = (int) $request->get('page', 1);
@@ -44,6 +45,12 @@ class SearchController extends Controller
 
         if (!mb_check_encoding($queryString, 'UTF-8')) {
             return new Response('');
+        }
+
+        if (!$searchRouteName) {
+            $searchRouteName = $this->container->getParameter(
+                'phlexible_frontend_search.results.default_search_route_name'
+            );
         }
 
         $elementSearch = $this->get('phlexible_frontend_search.element_search');
@@ -69,16 +76,17 @@ class SearchController extends Controller
         return $this->render(
             $template,
             array(
-                'term'        => $queryString,
-                'siterootId'  => $siterootId,
-                'limit'       => $limit,
-                'start'       => $start,
-                'page'        => $page,
-                'total'       => $result->getTotalHits(),
-                'hasMore'     => $result->getTotalHits() > $limit + $start,
-                'result'      => $result,
-                'suggestions' => $suggestions,
-                'pager'       => $pagerfanta
+                'searchRouteName' => $searchRouteName,
+                'term'            => $queryString,
+                'siterootId'      => $siterootId,
+                'limit'           => $limit,
+                'start'           => $start,
+                'page'            => $page,
+                'total'           => $result->getTotalHits(),
+                'hasMore'         => $result->getTotalHits() > $limit + $start,
+                'result'          => $result,
+                'suggestions'     => $suggestions,
+                'pager'           => $pagerfanta
             )
         );
     }

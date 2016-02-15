@@ -27,10 +27,12 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('phlexible_frontend_search');
 
         $rootNode
+            ->addDefaultsIfNotSet()
             ->children()
                 ->arrayNode('results')
                     ->addDefaultsIfNotSet()
                     ->children()
+                        ->scalarNode('default_search_route_name')->defaultNull()->end()
                         ->scalarNode('template')->defaultValue('PhlexibleFrontendSearchBundle::results.html.twig')->end()
                     ->end()
                 ->end()
