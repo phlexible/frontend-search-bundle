@@ -8,7 +8,7 @@
         </div>
     {% endfor %}
 
-    {{ pagerfanta(pager, 'search_twig', {proximity: 1, routeName: searchRouteName }, ajaxRouteName: 'frontendsearch_query', parameters: {term: term, limit: limit, siterootId: siterootId}}) }}
+    {{ pagerfanta(pager, 'search_twig', {proximity: 1, routeName: searchRouteName, ajaxRouteName: 'frontendsearch_query', parameters: {term: term, limit: limit, siterootId: siterootId}}) }}
 {% else %}
     <h2>{{ "search.results--heading"|transchoice(result.totalHits) }}</h2>
 
