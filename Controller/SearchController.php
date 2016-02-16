@@ -65,6 +65,7 @@ class SearchController extends Controller
         }
 
         $template = $this->container->getParameter('phlexible_frontend_search.results.template');
+        $partTemplate = $this->container->getParameter('phlexible_frontend_search.results.part_template');
 
         $adapter = new NullAdapter($result->getTotalHits());
         $pagerfanta = new Pagerfanta($adapter);
@@ -77,6 +78,65 @@ class SearchController extends Controller
             $template,
             array(
                 'searchRouteName' => $searchRouteName,
+                'partTemplate'    => $partTemplate,
+                'term'            => $queryString,
+                'siterootId'      => $siterootId,
+                'limit'           => $limit,
+                'start'           => $start,
+                'page'            => $page,
+                'total'           => $result->getTotalHits(),
+                'hasMore'         => $result->getTotalHits() > $limit + $start,
+                'result'          => $result,
+                'suggestions'     => $suggestions,
+                'pager'           => $pagerfanta
+            )
+        );
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     * @Route("/query_more", name="frontendsearch_query_more")
+     */
+    public function queryMoreAction(Request $request)
+    {
+        $queryString = trim($request->get('term', ''));
+        $siterootId = $request->get('siterootId');
+        $limit = (int) $request->get('limit', 10);
+        $page = (int) $request->get('page', 1);
+
+        if (strlen($queryString) == 0) {
+            return new Response('');
+        }
+
+        if (!mb_check_encoding($queryString, 'UTF-8')) {
+            return new Response('');
+        }
+
+        $elementSearch = $this->get('phlexible_frontend_search.element_search');
+
+        $start = ($page - 1) * $limit;
+
+        $result = $elementSearch->search($queryString, $request->getLocale(), $siterootId, $limit, $start);
+
+        $suggestions = array();
+        if (!$result->getTotalHits()) {
+            $suggestions = $elementSearch->suggest($queryString, $request->getLocale(), $siterootId);
+        }
+
+        $template = $this->container->getParameter('phlexible_frontend_search.results.part_template');
+
+        $adapter = new NullAdapter($result->getTotalHits());
+        $pagerfanta = new Pagerfanta($adapter);
+
+        $pagerfanta
+            ->setMaxPerPage($limit)
+            ->setCurrentPage($page); // 1 by default
+
+        return $this->render(
+            $template,
+            array(
                 'term'            => $queryString,
                 'siterootId'      => $siterootId,
                 'limit'           => $limit,
@@ -98,6 +158,85 @@ class SearchController extends Controller
      * @Route("/query_json", name="frontendsearch_query_json")
      */
     public function queryJsonAction(Request $request)
+    {
+        $queryString = strtolower(trim($request->get('term')));
+        $searchRouteName = $request->get('searchRouteName');
+        $siterootId = $request->get('siterootId');
+        $limit = (int) $request->get('limit', 10);
+        $page = (int) $request->get('page', 1);
+
+        if (strlen($queryString) == 0) {
+            return new JsonResponse(array());
+        }
+
+        if (!mb_check_encoding($queryString, 'UTF-8')) {
+            return new JsonResponse(array());
+        }
+
+        if (!$searchRouteName) {
+            $searchRouteName = $this->container->getParameter(
+                'phlexible_frontend_search.results.default_search_route_name'
+            );
+        }
+
+        $elementSearch = $this->get('phlexible_frontend_search.element_search');
+
+        $start = ($page - 1) * $limit;
+
+        $result = $elementSearch->search($queryString, $request->getLocale(), $siterootId, $limit, $start);
+
+        $suggestions = array();
+        if (!$result->getTotalHits()) {
+            $suggestions = $elementSearch->suggest($queryString, $request->getLocale(), $siterootId);
+        }
+
+        $template = $this->container->getParameter('phlexible_frontend_search.results.template');
+        $partTemplate = $this->container->getParameter('phlexible_frontend_search.results.part_template');
+
+        $adapter = new ArrayAdapter($result->getResults());
+        $pagerfanta = new Pagerfanta($adapter);
+
+        $pagerfanta
+            ->setMaxPerPage($limit)
+            ->setCurrentPage($page); // 1 by default
+
+        $view = $this->renderView(
+            $template,
+            array(
+                'searchRouteName' => $searchRouteName,
+                'partTemplate'    => $partTemplate,
+                'term'            => $queryString,
+                'siterootId'      => $siterootId,
+                'limit'           => $limit,
+                'start'           => $start,
+                'page'            => $page,
+                'total'           => $result->getTotalHits(),
+                'hasMore'         => $result->getTotalHits() > $limit + $start,
+                'result'          => $result,
+                'suggestions'     => $suggestions,
+                'pager'           => $pagerfanta
+            )
+        );
+
+        return new JsonResponse(
+            array(
+                'start'       => $start,
+                'limit'       => $limit,
+                'total'       => $result->getTotalHits(),
+                'result'      => $result,
+                'suggestions' => $suggestions,
+                'view'        => $view
+            )
+        );
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return JsonResponse
+     * @Route("/query_more_json", name="frontendsearch_query_more_json")
+     */
+    public function queryMoreJsonAction(Request $request)
     {
         $queryString = strtolower(trim($request->get('term')));
         $siterootId = $request->get('siterootId');
@@ -123,7 +262,7 @@ class SearchController extends Controller
             $suggestions = $elementSearch->suggest($queryString, $request->getLocale(), $siterootId);
         }
 
-        $template = $this->container->getParameter('phlexible_frontend_search.results.template');
+        $partTemplate = $this->container->getParameter('phlexible_frontend_search.results.part_template');
 
         $adapter = new ArrayAdapter($result->getResults());
         $pagerfanta = new Pagerfanta($adapter);
@@ -133,18 +272,19 @@ class SearchController extends Controller
             ->setCurrentPage($page); // 1 by default
 
         $view = $this->renderView(
-            $template,
+            $partTemplate,
             array(
-                'term'        => $queryString,
-                'siterootId'  => $siterootId,
-                'limit'       => $limit,
-                'start'       => $start,
-                'page'        => $page,
-                'total'       => $result->getTotalHits(),
-                'hasMore'     => $result->getTotalHits() > $limit + $start,
-                'result'      => $result,
-                'suggestions' => $suggestions,
-                'pager'       => $pagerfanta
+                'partTemplate' => $partTemplate,
+                'term'         => $queryString,
+                'siterootId'   => $siterootId,
+                'limit'        => $limit,
+                'start'        => $start,
+                'page'         => $page,
+                'total'        => $result->getTotalHits(),
+                'hasMore'      => $result->getTotalHits() > $limit + $start,
+                'result'       => $result,
+                'suggestions'  => $suggestions,
+                'pager'        => $pagerfanta
             )
         );
 

@@ -34,6 +34,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('default_search_route_name')->defaultNull()->end()
                         ->scalarNode('template')->defaultValue('PhlexibleFrontendSearchBundle::results.html.twig')->end()
+                        ->scalarNode('part_template')->defaultValue('PhlexibleFrontendSearchBundle::results_part.html.twig')->end()
                     ->end()
                 ->end()
                 ->arrayNode('pager')

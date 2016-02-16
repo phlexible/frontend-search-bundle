@@ -1,0 +1,9 @@
+{% if result.results %}
+    {% for result in result.results %}
+        <div class="search-result">
+            <h2><a href="{{ path(tree_node(result.data.nodeId)) }}">{{ result.highlights.title[0]|default(result.data.title)|raw }}</a></h2>
+            <p>{{ result.highlights.content[0]|default(result.data.content)|raw }}</p>
+            <a href="{{ path(tree_node(result.data.nodeId)) }}">{{ "more"|trans({'%title': result.highlights.title[0]|default(result.data.title)})|raw }}</a>
+        </div>
+    {% endfor %}
+{% endif %}
