@@ -25,18 +25,18 @@ class QueryBuilder
      */
     public function build($queryString, array $fields)
     {
+        $queryString = str_replace('/', '\/', $queryString);
+
         $parser = new QueryStringParser();
 
         $occurrences = array();
         $hasPhrase = false;
-        $hasTerm = false;
         foreach ($parser->parse($queryString) as $term) {
             if (is_array($term->getValue())) {
                 $occurrences[$term->getOccurrence()][implode(' ', $term->getValue())] = 'phrase';
                 $hasPhrase = true;
             } else {
                 $occurrences[$term->getOccurrence()][$term->getValue()] = 'term';
-                $hasTerm = true;
             }
         }
 
