@@ -15,6 +15,7 @@ use Elastica\Suggest;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -33,6 +34,8 @@ class SuggestCommand extends ContainerAwareCommand
             ->setName('frontend-search:suggest')
             ->setDescription('Run suggest query.')
             ->addArgument('query', InputArgument::REQUIRED, 'Query string')
+            ->addOption('siterootId', null, InputOption::VALUE_REQUIRED)
+            ->addOption('language', null, InputOption::VALUE_REQUIRED, '', 'de')
         ;
     }
 
@@ -42,12 +45,14 @@ class SuggestCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $queryString = strtolower(trim($input->getArgument('query')));
+        $language = $input->getOption('language');
+        $siterootId = $input->getOption('siterootId');
 
         $elementSearch = $this->getContainer()->get('phlexible_frontend_search.element_search');
 
-        $suggestions = $elementSearch->suggest($queryString, 'de', '');
+        $suggestions = $elementSearch->suggest($queryString, $language, $siterootId);
 
-        ld($suggestions);
+        dump($suggestions);
 
         return 0;
     }

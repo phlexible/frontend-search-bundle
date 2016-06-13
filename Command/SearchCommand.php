@@ -15,6 +15,7 @@ use Elastica\Suggest;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -33,6 +34,8 @@ class SearchCommand extends ContainerAwareCommand
             ->setName('frontend-search:search')
             ->setDescription('Run search query.')
             ->addArgument('query', InputArgument::REQUIRED, 'Query string')
+            ->addOption('siterootId', null, InputOption::VALUE_REQUIRED)
+            ->addOption('language', null, InputOption::VALUE_REQUIRED, '', 'de')
         ;
     }
 
@@ -42,10 +45,12 @@ class SearchCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $queryString = strtolower(trim($input->getArgument('query')));
+        $language = $input->getOption('language');
+        $siterootId = $input->getOption('siterootId');
 
         $elementSearch = $this->getContainer()->get('phlexible_frontend_search.element_search');
 
-        $result = $elementSearch->search($queryString, 'de', '', 20, 0);
+        $result = $elementSearch->search($queryString, $language, $siterootId, 20, 0);
 
         $output->writeln("Found {$result->getTotalHits()} hits");
         $output->writeln("Took {$result->getTotalTime()} s");
@@ -54,7 +59,7 @@ class SearchCommand extends ContainerAwareCommand
             $output->writeln("Hits:");
             foreach ($result->getResults() as $result) {
                 if ($output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
-                    ld($result);
+                    dump($result);
                 } else {
                     $output->writeln("  {$result->getId()} ({$result->getScore()})");
                     if ($output->getVerbosity() > OutputInterface::VERBOSITY_VERBOSE) {

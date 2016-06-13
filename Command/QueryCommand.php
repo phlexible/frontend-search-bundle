@@ -79,7 +79,7 @@ class QueryCommand extends ContainerAwareCommand
             $query->setSuggest($suggest);
         }
 
-        $index = $this->getContainer()->get('phlexible_elastica.default_client');
+        $index = $this->getContainer()->get('phlexible_frontend_search.index');
         $result = $index->search($query);
 
         $output->writeln("{$result->getTotalHits()} hits");

@@ -48,9 +48,14 @@ class ElementSearch
     public function search($queryString, $language, $siterootId, $limit, $start = 0)
     {
         $filter = new Filter\BoolAnd();
-        $filter
-            ->addFilter(new Filter\Term(array('siterootId' => $siterootId)))
-            ->addFilter(new Filter\Term(array('language' => $language)));
+
+        if ($siterootId) {
+            $filter->addFilter(new Filter\Term(array('siterootId' => $siterootId)));
+        }
+
+        if ($language) {
+            $filter->addFilter(new Filter\Term(array('language' => $language)));
+        }
 
         $queryBuilder = new QueryBuilder();
 
@@ -86,9 +91,14 @@ class ElementSearch
         $suggestions->setGlobalText($queryString);
 
         $filter = new Filter\BoolAnd();
-        $filter
-            ->addFilter(new Filter\Term(array('siterootId' => $siterootId)))
-            ->addFilter(new Filter\Term(array('language' => $language)));
+
+        if ($siterootId) {
+            $filter->addFilter(new Filter\Term(array('siterootId' => $siterootId)));
+        }
+
+        if ($language) {
+            $filter->addFilter(new Filter\Term(array('language' => $language)));
+        }
 
         $multiMatchQuery = new Query\MultiMatch();
         $multiMatchQuery
@@ -121,9 +131,14 @@ class ElementSearch
     public function autocomplete($queryString, $language, $siterootId)
     {
         $filter = new Filter\BoolAnd();
-        $filter
-            ->addFilter(new Filter\Term(array('siterootId' => $siterootId)))
-            ->addFilter(new Filter\Term(array('language' => $language)));
+
+        if ($siterootId) {
+            $filter->addFilter(new Filter\Term(array('siterootId' => $siterootId)));
+        }
+
+        if ($language) {
+            $filter->addFilter(new Filter\Term(array('language' => $language)));
+        }
 
         $aggregation = new Aggregation\Terms('autocomplete');
         $aggregation
