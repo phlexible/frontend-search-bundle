@@ -29,6 +29,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->addDefaultsIfNotSet()
             ->children()
+                ->scalarNode('index_name')->defaultValue('phlexible_elastica.index')->end()
                 ->arrayNode('results')
                     ->addDefaultsIfNotSet()
                     ->children()

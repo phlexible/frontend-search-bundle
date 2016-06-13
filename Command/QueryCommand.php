@@ -79,15 +79,15 @@ class QueryCommand extends ContainerAwareCommand
             $query->setSuggest($suggest);
         }
 
-        $storage = $this->getContainer()->get('phlexible_indexer.storage.default');
-        $result = $storage->getIndex()->search($query);
+        $index = $this->getContainer()->get('phlexible_elastica.default_client');
+        $result = $index->search($query);
 
         $output->writeln("{$result->getTotalHits()} hits");
         $output->writeln("Took {$result->getTotalTime()} hits");
         $output->writeln("Max score {$result->getMaxScore()}");
         if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
             foreach ($result->getResults() as $result) {
-                ld($result);
+                dump($result);
             }
         }
 

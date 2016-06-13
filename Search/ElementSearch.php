@@ -15,7 +15,6 @@ use Elastica\Query;
 use Elastica\ResultSet;
 use Elastica\Suggest;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryBuilder;
-use Phlexible\Bundle\IndexerBundle\Storage\StorageInterface;
 
 /**
  * Element search
@@ -25,16 +24,16 @@ use Phlexible\Bundle\IndexerBundle\Storage\StorageInterface;
 class ElementSearch
 {
     /**
-     * @var StorageInterface
+     * @var Index
      */
-    private $storage;
+    private $index;
 
     /**
-     * @param StorageInterface $storage
+     * @param Index $index
      */
-    public function __construct(StorageInterface $storage)
+    public function __construct(Index $index)
     {
-        $this->storage = $storage;
+        $this->index = $index;
     }
 
     /**
@@ -70,10 +69,7 @@ class ElementSearch
             ->setPostFilter($filter)
             ->setQuery($queryBuilder->build($queryString, array('title' => 1.2, 'content' => 1.0)));
 
-        $index = $this->storage->getIndex();
-        /* @var $index Index */
-
-        return $index->search($query);
+        return $this->index->search($query);
     }
 
     /**
@@ -105,9 +101,7 @@ class ElementSearch
             ->setPostFilter($filter)
             ->setSuggest($suggestions);
 
-        $index = $this->storage->getIndex();
-        /* @var $index Index */
-        $results = $index->search($query);
+        $results = $this->index->search($query);
 
         $suggestions = array();
         if (!empty($results->getSuggests()['didYouMean'][0]['options'])) {
@@ -144,9 +138,7 @@ class ElementSearch
             ->setPostFilter($filter)
             ->addAggregation($aggregation);
 
-        $index = $this->storage->getIndex();
-        /* @var $index Index */
-        $results = $index->search($query);
+        $results = $this->index->search($query);
 
         $autocompletes = array();
         foreach ($results->getAggregation('autocomplete')['buckets'] as $bucket) {

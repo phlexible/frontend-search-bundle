@@ -2,7 +2,7 @@ services:
     phlexible_frontend_search.element_search:
         class: Phlexible\Bundle\FrontendSearchBundle\Search\ElementSearch
         arguments:
-            - @phlexible_indexer.storage.default
+            - @phlexible_frontend_search.index
 
     phlexible_frontend_search.pagerfanta.twig_view:
         class: Phlexible\Bundle\FrontendSearchBundle\Pagerfanta\TwigView
