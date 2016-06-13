@@ -2,12 +2,12 @@ services:
     phlexible_frontend_search.element_search:
         class: Phlexible\Bundle\FrontendSearchBundle\Search\ElementSearch
         arguments:
-            - @phlexible_frontend_search.index
+            - "@phlexible_frontend_search.index"
 
     phlexible_frontend_search.pagerfanta.twig_view:
         class: Phlexible\Bundle\FrontendSearchBundle\Pagerfanta\TwigView
-        arguments:
-            - @twig
-            - %phlexible_frontend_search.pager.template%
         public: false
+        arguments:
+            - "@twig"
+            - "%phlexible_frontend_search.pager.template%"
         tags: [{ name: pagerfanta.view, alias: search_twig }]
