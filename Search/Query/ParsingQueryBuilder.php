@@ -11,11 +11,11 @@ namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query;
 use Elastica\Query;
 
 /**
- * Query builder
+ * Parsing query builder
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */
-class QueryBuilder
+class ParsingQueryBuilder implements QueryBuilderInterface
 {
     /**
      * @param string $queryString
@@ -26,6 +26,7 @@ class QueryBuilder
     public function build($queryString, array $fields)
     {
         $queryString = str_replace('/', '\/', $queryString);
+        $queryString = str_replace(':', '\:', $queryString);
 
         $parser = new QueryStringParser();
 
@@ -40,27 +41,25 @@ class QueryBuilder
             }
         }
 
-        if (empty($occurrences[ParseResult::MUST]) && empty($occurrences[ParseResult::MUST_NOT]) && !$hasPhrase) {
-            // only shoulds and no phrases, simple query string
-            $query = new Query\QueryString($queryString);
-        } else {
-            // only terms, bool + match
-
-            $query = new Query\Bool();
-            foreach ($occurrences as $occurance => $terms) {
-                foreach ($terms as $term => $type) {
-                    $matchQuery = new Query\Match();
-                    foreach ($fields as $field => $boost) {
-                        $matchQuery
-                            ->setFieldQuery($field, $term)
-                            ->setFieldBoost($field, $boost);
-                        if ($type === 'phrase') {
-                            $matchQuery->setFieldType($field, 'phrase');
-                        }
-                    }
-                    $method = 'add' . ucfirst($occurance);
-                    $query->$method($matchQuery);
+        $query = new Query\Bool();
+        foreach ($occurrences as $occurance => $terms) {
+            foreach ($terms as $term => $type) {
+                $matchQuery = new Query\MultiMatch();
+                $boostedFields = array();
+                foreach ($fields as $field => $boost) {
+                    $boostedFields[] = "$field^$boost";
                 }
+
+                $matchQuery
+                    ->setFields($boostedFields)
+                    ->setQuery($term);
+
+                if ($type === 'phrase') {
+                    $matchQuery->setType('phrase');
+                }
+
+                $method = 'add' . ucfirst($occurance);
+                $query->$method($matchQuery);
             }
         }
 

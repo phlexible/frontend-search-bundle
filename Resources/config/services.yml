@@ -1,8 +1,18 @@
 services:
+    phlexible_frontend_search.multi_match_query_builder:
+        class: Phlexible\Bundle\FrontendSearchBundle\Search\Query\MultiMatchQueryBuilder
+
+    phlexible_frontend_search.parsing_query_builder:
+        class: Phlexible\Bundle\FrontendSearchBundle\Search\Query\ParsingQueryBuilder
+
+    phlexible_frontend_search.query_string_query_builder:
+        class: Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryStringQueryBuilder
+
     phlexible_frontend_search.element_search:
         class: Phlexible\Bundle\FrontendSearchBundle\Search\ElementSearch
         arguments:
             - "@phlexible_frontend_search.index"
+            - "@phlexible_frontend_search.query_string_query_builder"
 
     phlexible_frontend_search.pagerfanta.twig_view:
         class: Phlexible\Bundle\FrontendSearchBundle\Pagerfanta\TwigView

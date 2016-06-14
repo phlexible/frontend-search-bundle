@@ -15,6 +15,7 @@ use Elastica\Query;
 use Elastica\ResultSet;
 use Elastica\Suggest;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryBuilder;
+use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryBuilderInterface;
 
 /**
  * Element search
@@ -29,11 +30,18 @@ class ElementSearch
     private $index;
 
     /**
-     * @param Index $index
+     * @var QueryBuilderInterface
      */
-    public function __construct(Index $index)
+    private $queryBuilder;
+
+    /**
+     * @param Index                 $index
+     * @param QueryBuilderInterface $queryBuilder
+     */
+    public function __construct(Index $index, QueryBuilderInterface $queryBuilder)
     {
         $this->index = $index;
+        $this->queryBuilder = $queryBuilder;
     }
 
     /**
@@ -57,8 +65,6 @@ class ElementSearch
             $filter->addFilter(new Filter\Term(array('language' => $language)));
         }
 
-        $queryBuilder = new QueryBuilder();
-
         $query = new Query();
         $query
             ->setFrom($start)
@@ -72,7 +78,7 @@ class ElementSearch
                 )
             )
             ->setPostFilter($filter)
-            ->setQuery($queryBuilder->build($queryString, array('title' => 1.2, 'content' => 1.0)));
+            ->setQuery($this->queryBuilder->build($queryString, array('title' => 1.2, 'content' => 1.0)));
 
         return $this->index->search($query);
     }
