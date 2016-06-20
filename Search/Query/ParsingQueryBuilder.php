@@ -47,7 +47,7 @@ class ParsingQueryBuilder implements QueryBuilderInterface
                 $matchQuery = new Query\MultiMatch();
                 $boostedFields = array();
                 foreach ($fields as $field => $boost) {
-                    $boostedFields[] = "$field^$boost";
+                    $boostedFields[] = sprintf("%s^%0.1f", $field, $boost);
                 }
 
                 $matchQuery

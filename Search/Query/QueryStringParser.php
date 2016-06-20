@@ -23,7 +23,6 @@ class QueryStringParser
     public function parse($queryString)
     {
         $tokenizer = new Tokenizer();
-        $result = new ParseResult();
 
         $inPhrase = false;
         $terms = array();

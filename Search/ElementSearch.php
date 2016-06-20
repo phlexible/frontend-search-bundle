@@ -14,7 +14,6 @@ use Elastica\Index;
 use Elastica\Query;
 use Elastica\ResultSet;
 use Elastica\Suggest;
-use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryBuilder;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryBuilderInterface;
 
 /**
@@ -92,7 +91,7 @@ class ElementSearch
      */
     public function suggest($queryString, $language, $siterootId)
     {
-        $suggestion = new Suggest\Term('didYouMean', 'did_you_mean');
+        $suggestion = new Suggest\Term('didYouMean', 'didYouMean');
         $suggestions = new Suggest($suggestion);
         $suggestions->setGlobalText($queryString);
 
@@ -162,11 +161,13 @@ class ElementSearch
         $results = $this->index->search($query);
 
         $autocompletes = array();
-        foreach ($results->getAggregation('autocomplete')['buckets'] as $bucket) {
-            $autocompletes[] = array(
-                'value' => $bucket['key'],
-                'count' => $bucket['doc_count']
-            );
+        if (!empty($results->getAggregation('autocomplete')['buckets'])) {
+            foreach ($results->getAggregation('autocomplete')['buckets'] as $bucket) {
+                $autocompletes[] = array(
+                    'value' => $bucket['key'],
+                    'count' => $bucket['doc_count']
+                );
+            }
         }
 
         return $autocompletes;

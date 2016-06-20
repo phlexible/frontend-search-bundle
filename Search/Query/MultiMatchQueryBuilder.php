@@ -30,8 +30,9 @@ class MultiMatchQueryBuilder implements QueryBuilderInterface
 
         $boostedFields = array();
         foreach ($fields as $field => $boost) {
-            $boostedFields[] = "$field^$boost";
+            $boostedFields[] = sprintf("%s^%0.1f", $field, $boost);
         }
+
         $query = new Query\MultiMatch();
         $query->setFields($boostedFields);
         $query->setQuery($queryString);
