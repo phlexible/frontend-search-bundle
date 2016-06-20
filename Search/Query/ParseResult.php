@@ -8,6 +8,8 @@
 
 namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query;
 
+use Phlexible\Bundle\FrontendSearchBundle\Exception\InvalidArgumentException;
+
 /**
  * Query string parser result
  *
@@ -37,11 +39,11 @@ class ParseResult
     public function add($occurrence, $text, $type = 'term')
     {
         if (!in_array($occurrence, array(self::MUST, self::MUST_NOT, self::SHOULD))) {
-            throw new \InvalidArgumentException("Occurance needs to be must, notNot or should. Got $occurrence.");
+            throw new InvalidArgumentException("Occurance needs to be must, notNot or should. Got $occurrence.");
         }
 
         if (!in_array($type, array(self::TERM, self::PHRASE))) {
-            throw new \InvalidArgumentException("Type needs to be term or phrase. Got $type.");
+            throw new InvalidArgumentException("Type needs to be term or phrase. Got $type.");
         }
 
         $this->parts[] = array('occurrence' => $occurrence, 'text' => $text, 'type' => $type);
