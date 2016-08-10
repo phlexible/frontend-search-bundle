@@ -1,23 +1,26 @@
 <?php
-
+/**
+ * phlexible
+ *
+ * @copyright 2007-2013 brainbits GmbH (http://www.brainbits.net)
+ * @license   proprietary
+ */
 
 namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query;
 
 /**
- * Class Util
+ * Replacing query string escaper
  *
  * @author Tim Hoepfner <thoepfner@brainbits.net>
+ * @author Stephan Wentz <swentz@brainbits.net>
  */
-class Util
+class ReplacingQueryStringEscaper implements QueryStringEscaperInterface
 {
-
     /**
-     * Escape illegal characters
+     * {@inheritdoc}
      * Lightweight version of \Elastica\Util::escapeTerm
-     * @param string $queryString
-     * @return string
      */
-    public static function escapeQuery($queryString)
+    public function escapeQueryString($queryString)
     {
         $chars = [
             '\\',

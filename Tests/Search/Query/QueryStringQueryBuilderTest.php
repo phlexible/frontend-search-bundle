@@ -9,7 +9,9 @@
 namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query;
 
 use Elastica\Query\QueryString;
+use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryStringEscaperInterface;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryStringQueryBuilder;
+use Prophecy\Argument;
 
 /**
  * Query builder test
@@ -25,7 +27,10 @@ class QueryStringQueryBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->builder = new QueryStringQueryBuilder();
+        $escaper = $this->prophesize(QueryStringEscaperInterface::class);
+        $escaper->escapeQueryString(Argument::type('string'))->willReturnArgument(0);
+
+        $this->builder = new QueryStringQueryBuilder($escaper->reveal());
     }
 
     public function testBuildQueryString()

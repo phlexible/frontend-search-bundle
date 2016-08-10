@@ -3,14 +3,15 @@
 
 namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query;
 
-use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Util;
+use Phlexible\Bundle\FrontendSearchBundle\Search\Query\ReplacingQueryStringEscaper;
 
 /**
- * Class UtilTest
+ * Class ReplacingQueryStringEscaperTest
  *
  * @author Tim Hoepfner <thoepfner@brainbits.net>
+ * @author Stephan Wentz <swentz@brainbits.net>
  */
-class UtilTest extends \PHPUnit_Framework_TestCase
+class ReplacingQueryStringEscaperTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @return array
@@ -22,10 +23,10 @@ class UtilTest extends \PHPUnit_Framework_TestCase
 EOF;
 
         return [
-          [$backslash."with backslash", $backslash.$backslash."with backslash"],
-          [": with colon", "\: with colon"],
-          ["/ with +slash", "\/ with +slash"],
-          ["{ term in -curly brackets}", "\{ term in -curly brackets\}"],
+            [$backslash."with backslash", $backslash.$backslash."with backslash"],
+            [": with colon", "\: with colon"],
+            ["/ with +slash", "\/ with +slash"],
+            ["{ term in -curly brackets}", "\{ term in -curly brackets\}"],
         ];
     }
 
@@ -36,7 +37,9 @@ EOF;
      */
     public function testEscapeIllegalCharacters($queryString, $expectedQueryString)
     {
-        $escapedQueryString = Util::escapeQuery($queryString);
+        $escaper = new ReplacingQueryStringEscaper();
+
+        $escapedQueryString = $escaper->escapeQueryString($queryString);
 
         $this->assertSame($expectedQueryString, $escapedQueryString);
     }

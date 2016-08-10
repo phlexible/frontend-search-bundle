@@ -18,11 +18,27 @@ use Elastica\Query;
 class QueryStringQueryBuilder implements QueryBuilderInterface
 {
     /**
+     * @var QueryStringEscaperInterface
+     */
+    private $escaper;
+
+    /**
+     * MultiMatchQueryBuilder constructor.
+     *
+     * @param QueryStringEscaperInterface $escaper
+     */
+    public function __construct(QueryStringEscaperInterface $escaper)
+    {
+        $this->escaper = $escaper;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function build($queryString, array $fields)
     {
-        $escapedQueryString = Util::escapeQuery($queryString);
+        $escapedQueryString = $this->escaper->escapeQueryString($queryString);
+
         $query = new Query\QueryString($escapedQueryString);
 
         return $query;

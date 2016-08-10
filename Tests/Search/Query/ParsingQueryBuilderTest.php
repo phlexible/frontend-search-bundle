@@ -10,6 +10,8 @@ namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query;
 
 use Elastica\Query\Bool as BoolQuery;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\ParsingQueryBuilder;
+use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryStringEscaperInterface;
+use Prophecy\Argument;
 
 /**
  * Parsing query builder test
@@ -25,7 +27,10 @@ class ParsingQueryBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->builder = new ParsingQueryBuilder();
+        $escaper = $this->prophesize(QueryStringEscaperInterface::class);
+        $escaper->escapeQueryString(Argument::type('string'))->willReturnArgument(0);
+
+        $this->builder = new ParsingQueryBuilder($escaper->reveal());
     }
 
     public function testBuildPhrase()
