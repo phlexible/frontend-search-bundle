@@ -22,10 +22,8 @@ class QueryStringQueryBuilder implements QueryBuilderInterface
      */
     public function build($queryString, array $fields)
     {
-        $queryString = str_replace('/', '\/', $queryString);
-        $queryString = str_replace(':', '\:', $queryString);
-
-        $query = new Query\QueryString($queryString);
+        $escapedQueryString = Util::escapeQuery($queryString);
+        $query = new Query\QueryString($escapedQueryString);
 
         return $query;
     }

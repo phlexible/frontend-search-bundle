@@ -25,8 +25,7 @@ class MultiMatchQueryBuilder implements QueryBuilderInterface
      */
     public function build($queryString, array $fields)
     {
-        $queryString = str_replace('/', '\/', $queryString);
-        $queryString = str_replace(':', '\:', $queryString);
+        $escapedQueryString = Util::escapeQuery($queryString);
 
         $boostedFields = array();
         foreach ($fields as $field => $boost) {
@@ -35,7 +34,7 @@ class MultiMatchQueryBuilder implements QueryBuilderInterface
 
         $query = new Query\MultiMatch();
         $query->setFields($boostedFields);
-        $query->setQuery($queryString);
+        $query->setQuery($escapedQueryString);
 
         return $query;
     }
