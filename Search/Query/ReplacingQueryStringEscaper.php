@@ -28,6 +28,8 @@ class ReplacingQueryStringEscaper implements QueryStringEscaperInterface
             ':',
             '{',
             '}',
+            '[',
+            ']',
         ];
 
         foreach ($chars as $char) {

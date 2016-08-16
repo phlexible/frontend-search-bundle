@@ -27,6 +27,9 @@ EOF;
             [": with colon", "\: with colon"],
             ["/ with +slash", "\/ with +slash"],
             ["{ term in -curly brackets}", "\{ term in -curly brackets\}"],
+            ["{}", "\{\}"],
+            ["[ term in -square +brackets]", "\[ term in -square +brackets\]"],
+            ["[]", "\[\]"],
         ];
     }
 
