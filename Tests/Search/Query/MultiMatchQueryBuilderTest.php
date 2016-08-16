@@ -10,6 +10,8 @@ namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query;
 
 use Elastica\Query\MultiMatch;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\MultiMatchQueryBuilder;
+use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryStringEscaperInterface;
+use Prophecy\Argument;
 
 /**
  * Multi match query builder test
@@ -25,7 +27,10 @@ class MultiMatchQueryBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->builder = new MultiMatchQueryBuilder();
+        $escaper = $this->prophesize(QueryStringEscaperInterface::class);
+        $escaper->escapeQueryString(Argument::type('string'))->willReturnArgument(0);
+
+        $this->builder = new MultiMatchQueryBuilder($escaper->reveal());
     }
 
     public function testBuildQueryString()
