@@ -18,6 +18,21 @@ use Elastica\Query;
 class ParsingQueryBuilder implements QueryBuilderInterface
 {
     /**
+     * @var QueryStringEscaperInterface
+     */
+    private $escaper;
+
+    /**
+     * MultiMatchQueryBuilder constructor.
+     *
+     * @param QueryStringEscaperInterface $escaper
+     */
+    public function __construct(QueryStringEscaperInterface $escaper)
+    {
+        $this->escaper = $escaper;
+    }
+
+    /**
      * @param string $queryString
      * @param array  $fields
      *
@@ -25,17 +40,14 @@ class ParsingQueryBuilder implements QueryBuilderInterface
      */
     public function build($queryString, array $fields)
     {
-        $queryString = str_replace('/', '\/', $queryString);
-        $queryString = str_replace(':', '\:', $queryString);
+        $escapedQueryString = $this->escaper->escapeQueryString($queryString);
 
         $parser = new QueryStringParser();
 
         $occurrences = array();
-        $hasPhrase = false;
-        foreach ($parser->parse($queryString) as $term) {
+        foreach ($parser->parse($escapedQueryString) as $term) {
             if (is_array($term->getValue())) {
                 $occurrences[$term->getOccurrence()][implode(' ', $term->getValue())] = 'phrase';
-                $hasPhrase = true;
             } else {
                 $occurrences[$term->getOccurrence()][$term->getValue()] = 'term';
             }
