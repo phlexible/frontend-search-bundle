@@ -6,8 +6,6 @@ The PhlexibleFrontendSearchBundle adds a generic search front end for elements t
 Installation
 ------------
 
-Installation is a 4 step process:
-
 1. Download PhlexibleFrontendSearchBundle using composer
 2. Enable the Bundle
 3. Import PhlexibleFrontendSearchBundle routing
@@ -18,7 +16,7 @@ Installation is a 4 step process:
 Add PhlexibleFrontendSearchBundle by running the command:
 
 ``` bash
-$ php composer.phar require phlexible/element-finder-bundle "~1.0.0"
+$ php composer.phar require phlexible/frontend-search-bundle "~1.0.0"
 ```
 
 Composer will install the bundle to your project's `vendor/phlexible` directory.
