@@ -8,7 +8,7 @@
 
 namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query;
 
-use Elastica\Query\Bool as BoolQuery;
+use Elastica\Query\BoolQuery;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\ParsingQueryBuilder;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryStringEscaperInterface;
 use Prophecy\Argument;
@@ -55,11 +55,11 @@ class ParsingQueryBuilderTest extends \PHPUnit_Framework_TestCase
                     'type' => 'phrase'
                 )
             ),
-            $matchQuery
+            $matchQuery->toArray()
         );
     }
 
-    public function testBuildBool()
+    public function testBuildBoolQuery()
     {
         $q = '+foo -bar baz';
 
@@ -84,7 +84,7 @@ class ParsingQueryBuilderTest extends \PHPUnit_Framework_TestCase
                     'query' => 'foo',
                 )
             ),
-            $matchQuery
+            $matchQuery->toArray()
         );
         $matchQuery = array_shift($params['must_not']);
         $this->assertEquals(
@@ -97,7 +97,7 @@ class ParsingQueryBuilderTest extends \PHPUnit_Framework_TestCase
                     'query' => 'bar',
                 )
             ),
-            $matchQuery
+            $matchQuery->toArray()
         );
         $matchQuery = array_shift($params['should']);
         $this->assertEquals(
@@ -110,7 +110,7 @@ class ParsingQueryBuilderTest extends \PHPUnit_Framework_TestCase
                     'query' => 'baz',
                 )
             ),
-            $matchQuery
+            $matchQuery->toArray()
         );
     }
 
@@ -139,7 +139,7 @@ class ParsingQueryBuilderTest extends \PHPUnit_Framework_TestCase
                     'query' => 'foo',
                 )
             ),
-            $matchQuery
+            $matchQuery->toArray()
         );
         $matchQuery = array_shift($params['should']);
         $this->assertEquals(
@@ -153,7 +153,7 @@ class ParsingQueryBuilderTest extends \PHPUnit_Framework_TestCase
                     'type' => 'phrase',
                 )
             ),
-            $matchQuery
+            $matchQuery->toArray()
         );
         $matchQuery = array_shift($params['must']);
         $this->assertEquals(
@@ -166,7 +166,7 @@ class ParsingQueryBuilderTest extends \PHPUnit_Framework_TestCase
                     'query' => 'bar',
                 )
             ),
-            $matchQuery
+            $matchQuery->toArray()
         );
         $matchQuery = array_shift($params['must_not']);
         $this->assertEquals(
@@ -179,7 +179,7 @@ class ParsingQueryBuilderTest extends \PHPUnit_Framework_TestCase
                     'query' => 'baz',
                 )
             ),
-            $matchQuery
+            $matchQuery->toArray()
         );
     }
 }

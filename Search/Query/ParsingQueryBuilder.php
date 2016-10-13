@@ -36,7 +36,7 @@ class ParsingQueryBuilder implements QueryBuilderInterface
      * @param string $queryString
      * @param array  $fields
      *
-     * @return Query|Query\Bool
+     * @return Query|Query\BoolQuery
      */
     public function build($queryString, array $fields)
     {
@@ -53,7 +53,7 @@ class ParsingQueryBuilder implements QueryBuilderInterface
             }
         }
 
-        $query = new Query\Bool();
+        $query = new Query\BoolQuery();
         foreach ($occurrences as $occurance => $terms) {
             foreach ($terms as $term => $type) {
                 $matchQuery = new Query\MultiMatch();

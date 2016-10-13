@@ -36,7 +36,7 @@ class MultiMatchQueryBuilder implements QueryBuilderInterface
      * @param string $queryString
      * @param array  $fields
      *
-     * @return Query|Query\Bool
+     * @return Query\MultiMatch
      */
     public function build($queryString, array $fields)
     {
