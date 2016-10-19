@@ -14,7 +14,7 @@ namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query;
 use Elastica\Query;
 
 /**
- * Parsing query builder
+ * Parsing query builder.
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */
@@ -62,7 +62,7 @@ class ParsingQueryBuilder implements QueryBuilderInterface
                 $matchQuery = new Query\MultiMatch();
                 $boostedFields = array();
                 foreach ($fields as $field => $boost) {
-                    $boostedFields[] = sprintf("%s^%0.1f", $field, $boost);
+                    $boostedFields[] = sprintf('%s^%0.1f', $field, $boost);
                 }
 
                 $matchQuery
@@ -73,7 +73,7 @@ class ParsingQueryBuilder implements QueryBuilderInterface
                     $matchQuery->setType('phrase');
                 }
 
-                $method = 'add' . ucfirst($occurance);
+                $method = 'add'.ucfirst($occurance);
                 $query->$method($matchQuery);
             }
         }

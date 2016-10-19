@@ -12,7 +12,7 @@
 namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query;
 
 /**
- * Token
+ * Token.
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */

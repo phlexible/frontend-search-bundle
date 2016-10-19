@@ -14,7 +14,7 @@ namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryStringParser;
 
 /**
- * Query string parser test
+ * Query string parser test.
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */

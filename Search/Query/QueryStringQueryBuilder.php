@@ -14,7 +14,7 @@ namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query;
 use Elastica\Query;
 
 /**
- * Query string query builder
+ * Query string query builder.
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */

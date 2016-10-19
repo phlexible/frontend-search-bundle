@@ -12,7 +12,7 @@
 namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query;
 
 /**
- * Query string parser
+ * Query string parser.
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */

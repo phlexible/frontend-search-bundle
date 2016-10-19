@@ -12,7 +12,7 @@
 namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query;
 
 /**
- * Tokenizer
+ * Tokenizer.
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */
@@ -35,7 +35,7 @@ class Tokenizer
         $tokens = array();
 
         $buffer = array();
-        for ($i = 0; $i < $length; $i++) {
+        for ($i = 0; $i < $length; ++$i) {
             $char = $queryString[$i];
 
             if ($char === '+' && !count($buffer)) {

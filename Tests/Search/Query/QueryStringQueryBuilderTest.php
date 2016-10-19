@@ -17,7 +17,7 @@ use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryStringQueryBuilder;
 use Prophecy\Argument;
 
 /**
- * Query builder test
+ * Query builder test.
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */
@@ -42,7 +42,7 @@ class QueryStringQueryBuilderTest extends \PHPUnit_Framework_TestCase
 
         $query = $this->builder->build($q, array('title', 'content'));
         $expected = array(
-            'query' => 'hello world'
+            'query' => 'hello world',
         );
 
         $this->assertInstanceOf(QueryString::class, $query);

@@ -20,7 +20,7 @@ use Elastica\Suggest;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryBuilderInterface;
 
 /**
- * Element search
+ * Element search.
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */
@@ -75,8 +75,8 @@ class ElementSearch
                 array(
                     'fields' => array(
                         'title' => array('fragment_size' => 20, 'number_of_fragments' => 1),
-                        'content' => array('fragment_size' => 400, 'number_of_fragments' => 2)
-                    )
+                        'content' => array('fragment_size' => 400, 'number_of_fragments' => 2),
+                    ),
                 )
             )
             ->setPostFilter($filter)
@@ -168,7 +168,7 @@ class ElementSearch
             foreach ($results->getAggregation('autocomplete')['buckets'] as $bucket) {
                 $autocompletes[] = array(
                     'value' => $bucket['key'],
-                    'count' => $bucket['doc_count']
+                    'count' => $bucket['doc_count'],
                 );
             }
         }

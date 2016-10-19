@@ -14,7 +14,7 @@ namespace Phlexible\Bundle\FrontendSearchBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Frontend search bundle
+ * Frontend search bundle.
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */

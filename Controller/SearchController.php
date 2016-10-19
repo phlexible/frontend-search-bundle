@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Search controller
+ * Search controller.
  *
  * @author Stephan Wentz <sw@brainbits.net>
  * @Route("/{_locale}/_search")
@@ -42,7 +42,7 @@ class SearchController extends Controller
         $limit = (int) $request->get('limit', 10);
         $page = (int) $request->get('page', 1);
 
-        if (strlen($queryString) == 0) {
+        if (strlen($queryString) === 0) {
             return new Response('');
         }
 
@@ -81,17 +81,17 @@ class SearchController extends Controller
             $template,
             array(
                 'searchRouteName' => $searchRouteName,
-                'partTemplate'    => $partTemplate,
-                'term'            => $queryString,
-                'siterootId'      => $siterootId,
-                'limit'           => $limit,
-                'start'           => $start,
-                'page'            => $page,
-                'total'           => $result->getTotalHits(),
-                'hasMore'         => $result->getTotalHits() > $limit + $start,
-                'result'          => $result,
-                'suggestions'     => $suggestions,
-                'pager'           => $pagerfanta
+                'partTemplate' => $partTemplate,
+                'term' => $queryString,
+                'siterootId' => $siterootId,
+                'limit' => $limit,
+                'start' => $start,
+                'page' => $page,
+                'total' => $result->getTotalHits(),
+                'hasMore' => $result->getTotalHits() > $limit + $start,
+                'result' => $result,
+                'suggestions' => $suggestions,
+                'pager' => $pagerfanta,
             )
         );
     }
@@ -109,7 +109,7 @@ class SearchController extends Controller
         $limit = (int) $request->get('limit', 10);
         $page = (int) $request->get('page', 1);
 
-        if (strlen($queryString) == 0) {
+        if (strlen($queryString) === 0) {
             return new Response('');
         }
 
@@ -140,16 +140,16 @@ class SearchController extends Controller
         return $this->render(
             $template,
             array(
-                'term'            => $queryString,
-                'siterootId'      => $siterootId,
-                'limit'           => $limit,
-                'start'           => $start,
-                'page'            => $page,
-                'total'           => $result->getTotalHits(),
-                'hasMore'         => $result->getTotalHits() > $limit + $start,
-                'result'          => $result,
-                'suggestions'     => $suggestions,
-                'pager'           => $pagerfanta
+                'term' => $queryString,
+                'siterootId' => $siterootId,
+                'limit' => $limit,
+                'start' => $start,
+                'page' => $page,
+                'total' => $result->getTotalHits(),
+                'hasMore' => $result->getTotalHits() > $limit + $start,
+                'result' => $result,
+                'suggestions' => $suggestions,
+                'pager' => $pagerfanta,
             )
         );
     }
@@ -168,7 +168,7 @@ class SearchController extends Controller
         $limit = (int) $request->get('limit', 10);
         $page = (int) $request->get('page', 1);
 
-        if (strlen($queryString) == 0) {
+        if (strlen($queryString) === 0) {
             return new JsonResponse(array());
         }
 
@@ -207,28 +207,28 @@ class SearchController extends Controller
             $template,
             array(
                 'searchRouteName' => $searchRouteName,
-                'partTemplate'    => $partTemplate,
-                'term'            => $queryString,
-                'siterootId'      => $siterootId,
-                'limit'           => $limit,
-                'start'           => $start,
-                'page'            => $page,
-                'total'           => $result->getTotalHits(),
-                'hasMore'         => $result->getTotalHits() > $limit + $start,
-                'result'          => $result,
-                'suggestions'     => $suggestions,
-                'pager'           => $pagerfanta
+                'partTemplate' => $partTemplate,
+                'term' => $queryString,
+                'siterootId' => $siterootId,
+                'limit' => $limit,
+                'start' => $start,
+                'page' => $page,
+                'total' => $result->getTotalHits(),
+                'hasMore' => $result->getTotalHits() > $limit + $start,
+                'result' => $result,
+                'suggestions' => $suggestions,
+                'pager' => $pagerfanta,
             )
         );
 
         return new JsonResponse(
             array(
-                'start'       => $start,
-                'limit'       => $limit,
-                'total'       => $result->getTotalHits(),
-                'result'      => $result,
+                'start' => $start,
+                'limit' => $limit,
+                'total' => $result->getTotalHits(),
+                'result' => $result,
                 'suggestions' => $suggestions,
-                'view'        => $view
+                'view' => $view,
             )
         );
     }
@@ -246,7 +246,7 @@ class SearchController extends Controller
         $limit = (int) $request->get('limit', 10);
         $page = (int) $request->get('page', 1);
 
-        if (strlen($queryString) == 0) {
+        if (strlen($queryString) === 0) {
             return new JsonResponse(array());
         }
 
@@ -278,27 +278,27 @@ class SearchController extends Controller
             $partTemplate,
             array(
                 'partTemplate' => $partTemplate,
-                'term'         => $queryString,
-                'siterootId'   => $siterootId,
-                'limit'        => $limit,
-                'start'        => $start,
-                'page'         => $page,
-                'total'        => $result->getTotalHits(),
-                'hasMore'      => $result->getTotalHits() > $limit + $start,
-                'result'       => $result,
-                'suggestions'  => $suggestions,
-                'pager'        => $pagerfanta
+                'term' => $queryString,
+                'siterootId' => $siterootId,
+                'limit' => $limit,
+                'start' => $start,
+                'page' => $page,
+                'total' => $result->getTotalHits(),
+                'hasMore' => $result->getTotalHits() > $limit + $start,
+                'result' => $result,
+                'suggestions' => $suggestions,
+                'pager' => $pagerfanta,
             )
         );
 
         return new JsonResponse(
             array(
-                'start'       => $start,
-                'limit'       => $limit,
-                'total'       => $result->getTotalHits(),
-                'result'      => $result,
+                'start' => $start,
+                'limit' => $limit,
+                'total' => $result->getTotalHits(),
+                'result' => $result,
                 'suggestions' => $suggestions,
-                'view'        => $view
+                'view' => $view,
             )
         );
     }

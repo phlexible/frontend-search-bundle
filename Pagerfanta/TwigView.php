@@ -101,7 +101,7 @@ class TwigView implements ViewInterface
         $this->calculateStartAndEndPage();
 
         return $this->twig->render($this->template, array(
-            'view' => $this
+            'view' => $this,
         ));
     }
 
@@ -134,13 +134,12 @@ class TwigView implements ViewInterface
     public function getParameters()
     {
         return $this->parameters;
-
     }
 
     /**
      * Returns whether there is prvious page or not.
      *
-     * @return Boolean
+     * @return bool
      */
     public function hasPreviousPage()
     {
@@ -150,7 +149,7 @@ class TwigView implements ViewInterface
     /**
      * Returns the previous page.
      *
-     * @return integer
+     * @return int
      */
     public function getPreviousPage()
     {
@@ -160,7 +159,7 @@ class TwigView implements ViewInterface
     /**
      * Returns whether there is next page or not.
      *
-     * @return Boolean
+     * @return bool
      */
     public function hasNextPage()
     {
@@ -170,7 +169,7 @@ class TwigView implements ViewInterface
     /**
      * Returns the next page.
      *
-     * @return integer
+     * @return int
      */
     public function getNextPage()
     {
@@ -180,7 +179,7 @@ class TwigView implements ViewInterface
     /**
      * Returns the current page.
      *
-     * @return integer
+     * @return int
      */
     public function getCurrentPage()
     {
@@ -190,7 +189,7 @@ class TwigView implements ViewInterface
     /**
      * Returns the maximum items per page.
      *
-     * @return integer
+     * @return int
      */
     public function getMaxPerPage()
     {
@@ -200,7 +199,7 @@ class TwigView implements ViewInterface
     /**
      * Returns the number of pages.
      *
-     * @return integer
+     * @return int
      */
     public function getNbPages()
     {
@@ -210,7 +209,7 @@ class TwigView implements ViewInterface
     /**
      * Returns the number of results.
      *
-     * @return integer
+     * @return int
      */
     public function getNbResults()
     {
@@ -218,9 +217,9 @@ class TwigView implements ViewInterface
     }
 
     /**
-     * Returns the start page
+     * Returns the start page.
      *
-     * @return integer
+     * @return int
      */
     public function getStartPage()
     {
@@ -228,9 +227,9 @@ class TwigView implements ViewInterface
     }
 
     /**
-     * Returns the end page
+     * Returns the end page.
      *
-     * @return integer
+     * @return int
      */
     public function getEndPage()
     {
@@ -238,11 +237,11 @@ class TwigView implements ViewInterface
     }
 
     /**
-     * Returns the page with negative offset from the last page
+     * Returns the page with negative offset from the last page.
      *
      * @param int $page
      *
-     * @return integer
+     * @return int
      */
     public function toLast($page)
     {

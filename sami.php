@@ -13,8 +13,8 @@ $iterator = Finder::create()
 ;
 
 return new Sami($iterator, array(
-    'title'                => 'Frontend Search Bundle API',
-    'build_dir'            => __DIR__.'/build/apidocs',
-    'cache_dir'            => __DIR__.'/build/cache',
+    'title' => 'Frontend Search Bundle API',
+    'build_dir' => __DIR__.'/build/apidocs',
+    'cache_dir' => __DIR__.'/build/cache',
     'default_opened_level' => 2,
 ));
