@@ -1,7 +1,7 @@
 {
     "name": "phlexible/frontend-search-bundle",
     "description": "phlexible frontend search bundle",
-    "license": "proprietary",
+    "license": "MIT",
     "type": "symfony-bundle",
     "keywords": ["indexer", "search"],
     "autoload": {
@@ -11,12 +11,12 @@
     },
     "require": {
         "php": ">=5.6.0",
-        "phlexible/elastica-bundle": "~1.0",
-        "phlexible/indexer-element-bundle": "~1.0",
+        "phlexible/elastica-bundle": "~1.1",
+        "phlexible/indexer-element-bundle": "~1.1",
         "white-october/pagerfanta-bundle": "~1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.5"
+        "phpunit/phpunit": "~5.6"
     },
     "extra": {
         "branch-alias": {
