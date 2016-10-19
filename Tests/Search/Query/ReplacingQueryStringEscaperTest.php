@@ -14,7 +14,7 @@ namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\ReplacingQueryStringEscaper;
 
 /**
- * Replacing query string escaper test
+ * Replacing query string escaper test.
  *
  * @author Tim Hoepfner <thoepfner@brainbits.net>
  * @author Stephan Wentz <swentz@brainbits.net>
@@ -31,13 +31,13 @@ class ReplacingQueryStringEscaperTest extends \PHPUnit_Framework_TestCase
 EOF;
 
         return [
-            [$backslash."with backslash", $backslash.$backslash."with backslash"],
-            [": with colon", "\: with colon"],
-            ["/ with +slash", "\/ with +slash"],
-            ["{ term in -curly brackets}", "\{ term in -curly brackets\}"],
-            ["{}", "\{\}"],
-            ["[ term in -square +brackets]", "\[ term in -square +brackets\]"],
-            ["[]", "\[\]"],
+            [$backslash.'with backslash', $backslash.$backslash.'with backslash'],
+            [': with colon', "\: with colon"],
+            ['/ with +slash', "\/ with +slash"],
+            ['{ term in -curly brackets}', "\{ term in -curly brackets\}"],
+            ['{}', "\{\}"],
+            ['[ term in -square +brackets]', "\[ term in -square +brackets\]"],
+            ['[]', "\[\]"],
         ];
     }
 

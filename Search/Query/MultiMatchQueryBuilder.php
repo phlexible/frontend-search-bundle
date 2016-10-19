@@ -14,7 +14,7 @@ namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query;
 use Elastica\Query;
 
 /**
- * Multi match query builder
+ * Multi match query builder.
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */
@@ -47,7 +47,7 @@ class MultiMatchQueryBuilder implements QueryBuilderInterface
 
         $boostedFields = array();
         foreach ($fields as $field => $boost) {
-            $boostedFields[] = sprintf("%s^%0.1f", $field, $boost);
+            $boostedFields[] = sprintf('%s^%0.1f', $field, $boost);
         }
 
         $query = new Query\MultiMatch();

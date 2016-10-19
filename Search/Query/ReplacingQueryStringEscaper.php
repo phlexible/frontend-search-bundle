@@ -12,7 +12,7 @@
 namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query;
 
 /**
- * Replacing query string escaper
+ * Replacing query string escaper.
  *
  * @author Tim Hoepfner <thoepfner@brainbits.net>
  * @author Stephan Wentz <swentz@brainbits.net>
@@ -21,7 +21,7 @@ class ReplacingQueryStringEscaper implements QueryStringEscaperInterface
 {
     /**
      * {@inheritdoc}
-     * Lightweight version of \Elastica\Util::escapeTerm
+     * Lightweight version of \Elastica\Util::escapeTerm.
      */
     public function escapeQueryString($queryString)
     {

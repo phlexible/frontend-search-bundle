@@ -18,7 +18,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Suggest command
+ * Suggest command.
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */
@@ -55,5 +55,4 @@ class SuggestCommand extends ContainerAwareCommand
 
         return 0;
     }
-
 }

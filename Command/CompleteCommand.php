@@ -18,7 +18,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Complete command
+ * Complete command.
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */
@@ -55,5 +55,4 @@ class CompleteCommand extends ContainerAwareCommand
 
         return 0;
     }
-
 }

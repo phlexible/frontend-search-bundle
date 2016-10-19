@@ -17,7 +17,7 @@ use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryStringEscaperInterfa
 use Prophecy\Argument;
 
 /**
- * Multi match query builder test
+ * Multi match query builder test.
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */
@@ -43,7 +43,7 @@ class MultiMatchQueryBuilderTest extends \PHPUnit_Framework_TestCase
         $query = $this->builder->build($q, array('title' => 1.2, 'content' => 1.0));
         $expected = array(
             'query' => 'hello world',
-            'fields' => array('title^1.2', 'content^1.0')
+            'fields' => array('title^1.2', 'content^1.0'),
         );
 
         $this->assertInstanceOf(MultiMatch::class, $query);

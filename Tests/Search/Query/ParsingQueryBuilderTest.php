@@ -17,7 +17,7 @@ use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryStringEscaperInterfa
 use Prophecy\Argument;
 
 /**
- * Parsing query builder test
+ * Parsing query builder test.
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */
@@ -55,8 +55,8 @@ class ParsingQueryBuilderTest extends \PHPUnit_Framework_TestCase
                         'content^1.0',
                     ),
                     'query' => 'hello world',
-                    'type' => 'phrase'
-                )
+                    'type' => 'phrase',
+                ),
             ),
             $matchQuery->toArray()
         );
@@ -85,7 +85,7 @@ class ParsingQueryBuilderTest extends \PHPUnit_Framework_TestCase
                         'content^1.0',
                     ),
                     'query' => 'foo',
-                )
+                ),
             ),
             $matchQuery->toArray()
         );
@@ -98,7 +98,7 @@ class ParsingQueryBuilderTest extends \PHPUnit_Framework_TestCase
                         'content^1.0',
                     ),
                     'query' => 'bar',
-                )
+                ),
             ),
             $matchQuery->toArray()
         );
@@ -111,7 +111,7 @@ class ParsingQueryBuilderTest extends \PHPUnit_Framework_TestCase
                         'content^1.0',
                     ),
                     'query' => 'baz',
-                )
+                ),
             ),
             $matchQuery->toArray()
         );
@@ -140,7 +140,7 @@ class ParsingQueryBuilderTest extends \PHPUnit_Framework_TestCase
                         'content^1.0',
                     ),
                     'query' => 'foo',
-                )
+                ),
             ),
             $matchQuery->toArray()
         );
@@ -154,7 +154,7 @@ class ParsingQueryBuilderTest extends \PHPUnit_Framework_TestCase
                     ),
                     'query' => 'sit amet',
                     'type' => 'phrase',
-                )
+                ),
             ),
             $matchQuery->toArray()
         );
@@ -167,7 +167,7 @@ class ParsingQueryBuilderTest extends \PHPUnit_Framework_TestCase
                         'content^1.0',
                     ),
                     'query' => 'bar',
-                )
+                ),
             ),
             $matchQuery->toArray()
         );
@@ -180,7 +180,7 @@ class ParsingQueryBuilderTest extends \PHPUnit_Framework_TestCase
                         'content^1.0',
                     ),
                     'query' => 'baz',
-                )
+                ),
             ),
             $matchQuery->toArray()
         );

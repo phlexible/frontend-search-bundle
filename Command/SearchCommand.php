@@ -18,7 +18,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Search command
+ * Search command.
  *
  * @author Marco Fischer <mf@brainbits.net>
  */
@@ -55,7 +55,7 @@ class SearchCommand extends ContainerAwareCommand
         $output->writeln("Took {$result->getTotalTime()} s");
         $output->writeln("Max score {$result->getMaxScore()}");
         if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-            $output->writeln("Hits:");
+            $output->writeln('Hits:');
             foreach ($result->getResults() as $result) {
                 if ($output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
                     dump($result);
@@ -72,5 +72,4 @@ class SearchCommand extends ContainerAwareCommand
 
         return 0;
     }
-
 }

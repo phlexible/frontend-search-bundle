@@ -20,7 +20,7 @@ use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryBuilderInterface;
 use Prophecy\Argument;
 
 /**
- * Element search test
+ * Element search test.
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */

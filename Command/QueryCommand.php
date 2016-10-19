@@ -21,7 +21,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Query command
+ * Query command.
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */
@@ -96,5 +96,4 @@ class QueryCommand extends ContainerAwareCommand
 
         return 0;
     }
-
 }

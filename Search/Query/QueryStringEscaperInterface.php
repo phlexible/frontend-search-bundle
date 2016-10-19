@@ -12,14 +12,14 @@
 namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query;
 
 /**
- * Query string escaper interface
+ * Query string escaper interface.
  *
  * @author Stephan Wentz <swentz@brainbits.net>
  */
 interface QueryStringEscaperInterface
 {
     /**
-     * Escape illegal characters
+     * Escape illegal characters.
      *
      * @param string $queryString
      *

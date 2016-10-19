@@ -14,9 +14,8 @@ namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Token;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Tokenizer;
 
-
 /**
- * Tokenizer test
+ * Tokenizer test.
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */
