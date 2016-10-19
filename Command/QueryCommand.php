@@ -90,7 +90,7 @@ class QueryCommand extends ContainerAwareCommand
         $output->writeln("Max score {$result->getMaxScore()}");
         if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
             foreach ($result->getResults() as $result) {
-                dump($result);
+                var_dump($result);
             }
         }
 

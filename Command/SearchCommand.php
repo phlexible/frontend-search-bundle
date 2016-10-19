@@ -58,7 +58,7 @@ class SearchCommand extends ContainerAwareCommand
             $output->writeln('Hits:');
             foreach ($result->getResults() as $result) {
                 if ($output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
-                    dump($result);
+                    var_dump($result);
                 } else {
                     $output->writeln("  {$result->getId()} ({$result->getScore()})");
                     if ($output->getVerbosity() > OutputInterface::VERBOSITY_VERBOSE) {

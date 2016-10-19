@@ -51,7 +51,7 @@ class SuggestCommand extends ContainerAwareCommand
 
         $suggestions = $elementSearch->suggest($queryString, $language, $siterootId);
 
-        dump($suggestions);
+        var_dump($suggestions);
 
         return 0;
     }

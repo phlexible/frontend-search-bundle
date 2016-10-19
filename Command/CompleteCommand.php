@@ -51,7 +51,7 @@ class CompleteCommand extends ContainerAwareCommand
 
         $autocompletes = $elementSearch->autocomplete($queryString, $language, $siterootId);
 
-        dump($autocompletes);
+        var_dump($autocompletes);
 
         return 0;
     }
