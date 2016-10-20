@@ -1,7 +1,7 @@
 PhlexibleFrontendSearchBundle
 =============================
 
-The PhlexibleFrontendSearchBundle adds a generic search front end for elements that are index through the PhlexibleIndexerElementBundle.
+The PhlexibleFrontendSearchBundle adds a generic search front end for elements that are index through the PhlexibleIndexerPageBundle.
 
 Installation
 ------------
