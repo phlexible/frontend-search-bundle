@@ -12,6 +12,8 @@
 namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query;
 
 use Elastica\Query;
+use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Escaper\QueryStringEscaperInterface;
+use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Parser\QueryStringParser;
 
 /**
  * Parsing query builder.

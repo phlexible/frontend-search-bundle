@@ -12,6 +12,7 @@
 namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query;
 
 use Elastica\Query;
+use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Escaper\QueryStringEscaperInterface;
 
 /**
  * Multi match query builder.

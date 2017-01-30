@@ -12,8 +12,8 @@
 namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query;
 
 use Elastica\Query\BoolQuery;
+use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Escaper\QueryStringEscaperInterface;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\ParsingQueryBuilder;
-use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryStringEscaperInterface;
 use Prophecy\Argument;
 
 /**

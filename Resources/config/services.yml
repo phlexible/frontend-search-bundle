@@ -1,21 +1,24 @@
 services:
     phlexible_frontend_search.replacing_query_string_escaper:
-        class: Phlexible\Bundle\FrontendSearchBundle\Search\Query\ReplacingQueryStringEscaper
+        class: Phlexible\Bundle\FrontendSearchBundle\Search\Query\Escaper\ReplacingQueryStringEscaper
+
+    phlexible_frontend_search.elastica_query_string_escaper:
+        class: Phlexible\Bundle\FrontendSearchBundle\Search\Query\Escaper\ReplacingQueryStringEscaper
 
     phlexible_frontend_search.multi_match_query_builder:
         class: Phlexible\Bundle\FrontendSearchBundle\Search\Query\MultiMatchQueryBuilder
         arguments:
-            - "@phlexible_frontend_search.replacing_query_string_escaper"
+            - "@phlexible_frontend_search.query_string_escaper"
 
     phlexible_frontend_search.parsing_query_builder:
         class: Phlexible\Bundle\FrontendSearchBundle\Search\Query\ParsingQueryBuilder
         arguments:
-            - "@phlexible_frontend_search.replacing_query_string_escaper"
+            - "@phlexible_frontend_search.query_string_escaper"
 
     phlexible_frontend_search.query_string_query_builder:
         class: Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryStringQueryBuilder
         arguments:
-            - "@phlexible_frontend_search.replacing_query_string_escaper"
+            - "@phlexible_frontend_search.query_string_escaper"
 
     phlexible_frontend_search.element_search:
         class: Phlexible\Bundle\FrontendSearchBundle\Search\ElementSearch

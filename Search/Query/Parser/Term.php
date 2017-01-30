@@ -9,25 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query;
+namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query\Parser;
 
 /**
- * Token.
+ * Term.
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */
-class Token
+class Term
 {
-    const MUST = 0;
-    const MUST_NOT = 1;
-    const QUOTE = 2;
-    const SPACE = 3;
-    const TERM = 4;
-
-    /**
-     * @var string
-     */
-    private $type;
+    const TERM = 'term';
+    const PHRASE = 'phrase';
 
     /**
      * @var string
@@ -35,21 +27,30 @@ class Token
     private $value;
 
     /**
-     * @param string $type
-     * @param string $value
+     * @var string
      */
-    public function __construct($type, $value)
+    private $occurrence;
+
+    /**
+     * @param string $value
+     * @param string $occurrence
+     */
+    public function __construct($value, $occurrence)
     {
-        $this->type = $type;
+        if (is_array($value) && count($value) === 1) {
+            $value = current($value);
+        }
+
         $this->value = $value;
+        $this->occurrence = $occurrence;
     }
 
     /**
      * @return string
      */
-    public function getType()
+    public function getOccurrence()
     {
-        return $this->type;
+        return $this->occurrence;
     }
 
     /**

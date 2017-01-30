@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query;
+namespace Phlexible\Bundle\FrontendSearchBundle\Search\Query\Parser;
 
 /**
  * Query string parser.

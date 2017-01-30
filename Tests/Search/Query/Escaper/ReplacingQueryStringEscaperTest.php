@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query;
+namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query\Escaper;
 
-use Phlexible\Bundle\FrontendSearchBundle\Search\Query\ReplacingQueryStringEscaper;
+use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Escaper\ReplacingQueryStringEscaper;
 
 /**
  * Replacing query string escaper test.

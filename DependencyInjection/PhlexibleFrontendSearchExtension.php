@@ -37,6 +37,7 @@ class PhlexibleFrontendSearchExtension extends Extension
         $container->setParameter('phlexible_frontend_search.index_name', $config['index_name']);
         $container->setAlias('phlexible_frontend_search.index', $config['index_name']);
         $container->setAlias('phlexible_frontend_search.query_builder', $config['search']['query_builder']);
+        $container->setAlias('phlexible_frontend_search.query_string_escaper', $config['search']['query_string_escaper']);
 
         $container->setParameter('phlexible_frontend_search.suggestions.size', $config['suggestions']['size']);
         $container->setParameter('phlexible_frontend_search.pager.template', $config['pager']['template']);

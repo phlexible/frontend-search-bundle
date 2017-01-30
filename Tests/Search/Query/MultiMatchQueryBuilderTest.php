@@ -12,8 +12,8 @@
 namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query;
 
 use Elastica\Query\MultiMatch;
+use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Escaper\QueryStringEscaperInterface;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\MultiMatchQueryBuilder;
-use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryStringEscaperInterface;
 use Prophecy\Argument;
 
 /**

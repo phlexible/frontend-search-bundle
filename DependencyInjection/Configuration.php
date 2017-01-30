@@ -45,6 +45,7 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('query_builder')->defaultValue('phlexible_frontend_search.query_string_query_builder')->end()
+                        ->scalarNode('query_string_escaper')->defaultValue('phlexible_frontend_search.elastica_query_string_escaper')->end()
                     ->end()
                 ->end()
                 ->arrayNode('pager')

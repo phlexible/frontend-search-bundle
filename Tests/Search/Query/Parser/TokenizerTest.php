@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query;
+namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query\Parser;
 
-use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Token;
-use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Tokenizer;
+use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Parser\Token;
+use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Parser\Tokenizer;
 
 /**
  * Tokenizer test.
