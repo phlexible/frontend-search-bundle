@@ -12,7 +12,7 @@
 namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query;
 
 use Elastica\Query\QueryString;
-use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryStringEscaperInterface;
+use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Escaper\QueryStringEscaperInterface;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryStringQueryBuilder;
 use Prophecy\Argument;
 
