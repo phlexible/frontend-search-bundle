@@ -12,14 +12,17 @@
 namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query\Escaper;
 
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Escaper\ReplacingQueryStringEscaper;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Replacing query string escaper test.
  *
  * @author Tim Hoepfner <thoepfner@brainbits.net>
  * @author Stephan Wentz <swentz@brainbits.net>
+ *
+ * @covers \Phlexible\Bundle\FrontendSearchBundle\Search\Query\Escaper\ReplacingQueryStringEscaper
  */
-class ReplacingQueryStringEscaperTest extends \PHPUnit_Framework_TestCase
+class ReplacingQueryStringEscaperTest extends TestCase
 {
     /**
      * @return array

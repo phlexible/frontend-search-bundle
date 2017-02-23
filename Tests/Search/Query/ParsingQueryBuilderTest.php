@@ -14,14 +14,17 @@ namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query;
 use Elastica\Query\BoolQuery;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Escaper\QueryStringEscaperInterface;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\ParsingQueryBuilder;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
 /**
  * Parsing query builder test.
  *
  * @author Stephan Wentz <sw@brainbits.net>
+ *
+ * @covers \Phlexible\Bundle\FrontendSearchBundle\Search\Query\ParsingQueryBuilder
  */
-class ParsingQueryBuilderTest extends \PHPUnit_Framework_TestCase
+class ParsingQueryBuilderTest extends TestCase
 {
     /**
      * @var ParsingQueryBuilder

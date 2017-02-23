@@ -17,14 +17,17 @@ use Elastica\ResultSet;
 use Phlexible\Bundle\ElasticaBundle\Elastica\Index;
 use Phlexible\Bundle\FrontendSearchBundle\Search\ElementSearch;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryBuilderInterface;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
 /**
  * Element search test.
  *
  * @author Stephan Wentz <sw@brainbits.net>
+ *
+ * @copvers \Phlexible\Bundle\FrontendSearchBundle\Search\ElementSearch
  */
-class ElementSearchTest extends \PHPUnit_Framework_TestCase
+class ElementSearchTest extends TestCase
 {
     public function testSearch()
     {

@@ -14,14 +14,17 @@ namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query;
 use Elastica\Query\QueryString;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Escaper\QueryStringEscaperInterface;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryStringQueryBuilder;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
 /**
  * Query builder test.
  *
  * @author Stephan Wentz <sw@brainbits.net>
+ *
+ * @covers \Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryStringQueryBuilder
  */
-class QueryStringQueryBuilderTest extends \PHPUnit_Framework_TestCase
+class QueryStringQueryBuilderTest extends TestCase
 {
     /**
      * @var QueryStringQueryBuilder
