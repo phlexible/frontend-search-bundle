@@ -60,7 +60,7 @@ class ElementSearch
         $filter = new Filter\BoolAnd();
 
         if ($siterootId) {
-            $filter->addFilter(new Filter\Term(array('siterootId' => $siterootId)));
+            $filter->addFilter(new Filter\Term(array('siteroot_id' => $siterootId)));
         }
 
         if ($language) {
@@ -94,14 +94,14 @@ class ElementSearch
      */
     public function suggest($queryString, $language, $siterootId)
     {
-        $suggestion = new Suggest\Term('didYouMean', 'didYouMean');
+        $suggestion = new Suggest\Term('did_you_mean', 'did_you_mean');
         $suggestions = new Suggest($suggestion);
         $suggestions->setGlobalText($queryString);
 
         $filter = new Filter\BoolAnd();
 
         if ($siterootId) {
-            $filter->addFilter(new Filter\Term(array('siterootId' => $siterootId)));
+            $filter->addFilter(new Filter\Term(array('siteroot_id' => $siterootId)));
         }
 
         if ($language) {
@@ -122,8 +122,8 @@ class ElementSearch
         $results = $this->index->search($query);
 
         $suggestions = array();
-        if (!empty($results->getSuggests()['didYouMean'][0]['options'])) {
-            $suggestions = $results->getSuggests()['didYouMean'][0]['options'];
+        if (!empty($results->getSuggests()['did_you_mean'][0]['options'])) {
+            $suggestions = $results->getSuggests()['did_you_mean'][0]['options'];
         }
 
         return $suggestions;
@@ -141,7 +141,7 @@ class ElementSearch
         $filter = new Filter\BoolAnd();
 
         if ($siterootId) {
-            $filter->addFilter(new Filter\Term(array('siterootId' => $siterootId)));
+            $filter->addFilter(new Filter\Term(array('siteroot_id' => $siterootId)));
         }
 
         if ($language) {
