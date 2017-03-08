@@ -11,7 +11,8 @@
 
 namespace Phlexible\Bundle\FrontendSearchBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Phlexible\Bundle\FrontendSearchBundle\Search\ElementSearch;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -22,8 +23,23 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */
-class CompleteCommand extends ContainerAwareCommand
+class CompleteCommand extends Command
 {
+    /**
+     * @var ElementSearch
+     */
+    private $elementSearch;
+
+    /**
+     * @param ElementSearch $elementSearch
+     */
+    public function __construct(ElementSearch $elementSearch)
+    {
+        parent::__construct();
+
+        $this->elementSearch = $elementSearch;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -47,9 +63,7 @@ class CompleteCommand extends ContainerAwareCommand
         $language = $input->getOption('language');
         $siterootId = $input->getOption('siterootId');
 
-        $elementSearch = $this->getContainer()->get('phlexible_frontend_search.element_search');
-
-        $autocompletes = $elementSearch->autocomplete($queryString, $language, $siterootId);
+        $autocompletes = $this->elementSearch->autocomplete($queryString, $language, $siterootId);
 
         var_dump($autocompletes);
 

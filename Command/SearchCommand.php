@@ -11,7 +11,8 @@
 
 namespace Phlexible\Bundle\FrontendSearchBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Phlexible\Bundle\FrontendSearchBundle\Search\ElementSearch;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -22,8 +23,23 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Marco Fischer <mf@brainbits.net>
  */
-class SearchCommand extends ContainerAwareCommand
+class SearchCommand extends Command
 {
+    /**
+     * @var ElementSearch
+     */
+    private $elementSearch;
+
+    /**
+     * @param ElementSearch $elementSearch
+     */
+    public function __construct(ElementSearch $elementSearch)
+    {
+        parent::__construct();
+
+        $this->elementSearch = $elementSearch;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -47,9 +63,7 @@ class SearchCommand extends ContainerAwareCommand
         $language = $input->getOption('language');
         $siterootId = $input->getOption('siterootId');
 
-        $elementSearch = $this->getContainer()->get('phlexible_frontend_search.element_search');
-
-        $result = $elementSearch->search($queryString, $language, $siterootId, 20, 0);
+        $result = $this->elementSearch->search($queryString, $language, $siterootId, 20, 0);
 
         $output->writeln("Found {$result->getTotalHits()} hits");
         $output->writeln("Took {$result->getTotalTime()} s");
