@@ -36,7 +36,7 @@ class ElementSearchTest extends TestCase
         $query = new QueryString('hello world');
         $queryBuilder->build('hello world', array('title' => 1.2, 'content' => 1.0))->willReturn($query);
 
-        $index->search(Argument::that(function(Query $receivedQuery) use ($query) {
+        $index->search(Argument::that(function(Query $receivedQuery) {
             $this->assertSame(5, $receivedQuery->getParam('size'));
             $this->assertSame(10, $receivedQuery->getParam('from'));
             $this->assertSame(array('fields' => array('title' => array('fragment_size' => 20, 'number_of_fragments' => 1), 'content' => array('fragment_size' => 400, 'number_of_fragments' => 2))), $receivedQuery->getParam('highlight'));
@@ -57,7 +57,7 @@ class ElementSearchTest extends TestCase
         $query = new QueryString('hello world');
         $queryBuilder->build('hello world', array('title' => 1.2, 'content' => 1.0))->willReturn($query);
 
-        $index->search(Argument::that(function(Query $receivedQuery) use ($query) {
+        $index->search(Argument::that(function(Query $receivedQuery) {
             $this->assertSame(array('and' => array(array('term' => array('siteroot_id' => 'abc')), array('term' => array('language' => 'de')))), $receivedQuery->getParam('post_filter')->toArray());
             $this->assertSame(array('multi_match' => array('query' => 'hello world', 'fields' => array('title', 'content'))), $receivedQuery->getParam('query')->toArray());
 
@@ -75,7 +75,7 @@ class ElementSearchTest extends TestCase
         $query = new QueryString('hello');
         $queryBuilder->build('hello', array('title' => 1.2, 'content' => 1.0))->willReturn($query);
 
-        $index->search(Argument::that(function(Query $receivedQuery) use ($query) {
+        $index->search(Argument::that(function(Query $receivedQuery) {
             $this->assertSame(array('and' => array(array('term' => array('siteroot_id' => 'abc')), array('term' => array('language' => 'de')))), $receivedQuery->getParam('post_filter')->toArray());
             $this->assertSame(array('prefix' => array('autocomplete' => 'hello')), $receivedQuery->getParam('query')->toArray());
             $this->assertSame(array('terms' => array('field' => 'autocomplete', 'order' => array('_count' => 'desc'), 'include' => array('pattern' => 'hello.*', 'flags' => ''))), $receivedQuery->getParam('aggs')[0]->toArray());
