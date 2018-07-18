@@ -32,4 +32,33 @@ services:
         arguments:
             - "@twig"
             - "%phlexible_frontend_search.pager.template%"
-        tags: [{ name: pagerfanta.view, alias: search_twig }]
+        tags:
+            - { name: pagerfanta.view, alias: search_twig }
+
+    phlexible_frontend_search.command.complete:
+        class: Phlexible\Bundle\FrontendSearchBundle\Command\CompleteCommand
+        arguments:
+            - "@phlexible_frontend_search.element_search"
+        tags:
+            - { name: console.command }
+
+    phlexible_frontend_search.command.query:
+        class: Phlexible\Bundle\FrontendSearchBundle\Command\QueryCommand
+        arguments:
+            - "@phlexible_frontend_search.index"
+        tags:
+            - { name: console.command }
+
+    phlexible_frontend_search.command.search:
+        class: Phlexible\Bundle\FrontendSearchBundle\Command\SearchCommand
+        arguments:
+            - "@phlexible_frontend_search.element_search"
+        tags:
+            - { name: console.command }
+
+    phlexible_frontend_search.command.suggest:
+        class: Phlexible\Bundle\FrontendSearchBundle\Command\SuggestCommand
+        arguments:
+            - "@phlexible_frontend_search.element_search"
+        tags:
+            - { name: console.command }

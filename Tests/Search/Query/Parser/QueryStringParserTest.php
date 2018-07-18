@@ -12,13 +12,16 @@
 namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query\Parser;
 
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Parser\QueryStringParser;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Query string parser test.
  *
  * @author Stephan Wentz <sw@brainbits.net>
+ *
+ * @covers \Phlexible\Bundle\FrontendSearchBundle\Search\Query\Parser\QueryStringParser
  */
-class QueryStringParserTest extends \PHPUnit_Framework_TestCase
+class QueryStringParserTest extends TestCase
 {
     /**
      * @var QueryStringParser

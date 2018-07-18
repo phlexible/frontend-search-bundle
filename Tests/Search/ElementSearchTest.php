@@ -17,14 +17,17 @@ use Elastica\ResultSet;
 use Phlexible\Bundle\ElasticaBundle\Elastica\Index;
 use Phlexible\Bundle\FrontendSearchBundle\Search\ElementSearch;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryBuilderInterface;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
 /**
  * Element search test.
  *
  * @author Stephan Wentz <sw@brainbits.net>
+ *
+ * @copvers \Phlexible\Bundle\FrontendSearchBundle\Search\ElementSearch
  */
-class ElementSearchTest extends \PHPUnit_Framework_TestCase
+class ElementSearchTest extends TestCase
 {
     public function testSearch()
     {
@@ -33,11 +36,11 @@ class ElementSearchTest extends \PHPUnit_Framework_TestCase
         $query = new QueryString('hello world');
         $queryBuilder->build('hello world', array('title' => 1.2, 'content' => 1.0))->willReturn($query);
 
-        $index->search(Argument::that(function(Query $receivedQuery) use ($query) {
+        $index->search(Argument::that(function(Query $receivedQuery) {
             $this->assertSame(5, $receivedQuery->getParam('size'));
             $this->assertSame(10, $receivedQuery->getParam('from'));
             $this->assertSame(array('fields' => array('title' => array('fragment_size' => 20, 'number_of_fragments' => 1), 'content' => array('fragment_size' => 400, 'number_of_fragments' => 2))), $receivedQuery->getParam('highlight'));
-            $this->assertSame(array('and' => array(array('term' => array('siterootId' => 'abc')), array('term' => array('language' => 'de')))), $receivedQuery->getParam('post_filter')->toArray());
+            $this->assertSame(array('and' => array(array('term' => array('siteroot_id' => 'abc')), array('term' => array('language' => 'de')))), $receivedQuery->getParam('post_filter')->toArray());
             $this->assertSame(array('query_string' => array('query' => 'hello world')), $receivedQuery->getParam('query')->toArray());
 
             return true;
@@ -54,8 +57,8 @@ class ElementSearchTest extends \PHPUnit_Framework_TestCase
         $query = new QueryString('hello world');
         $queryBuilder->build('hello world', array('title' => 1.2, 'content' => 1.0))->willReturn($query);
 
-        $index->search(Argument::that(function(Query $receivedQuery) use ($query) {
-            $this->assertSame(array('and' => array(array('term' => array('siterootId' => 'abc')), array('term' => array('language' => 'de')))), $receivedQuery->getParam('post_filter')->toArray());
+        $index->search(Argument::that(function(Query $receivedQuery) {
+            $this->assertSame(array('and' => array(array('term' => array('siteroot_id' => 'abc')), array('term' => array('language' => 'de')))), $receivedQuery->getParam('post_filter')->toArray());
             $this->assertSame(array('multi_match' => array('query' => 'hello world', 'fields' => array('title', 'content'))), $receivedQuery->getParam('query')->toArray());
 
             return true;
@@ -72,8 +75,8 @@ class ElementSearchTest extends \PHPUnit_Framework_TestCase
         $query = new QueryString('hello');
         $queryBuilder->build('hello', array('title' => 1.2, 'content' => 1.0))->willReturn($query);
 
-        $index->search(Argument::that(function(Query $receivedQuery) use ($query) {
-            $this->assertSame(array('and' => array(array('term' => array('siterootId' => 'abc')), array('term' => array('language' => 'de')))), $receivedQuery->getParam('post_filter')->toArray());
+        $index->search(Argument::that(function(Query $receivedQuery) {
+            $this->assertSame(array('and' => array(array('term' => array('siteroot_id' => 'abc')), array('term' => array('language' => 'de')))), $receivedQuery->getParam('post_filter')->toArray());
             $this->assertSame(array('prefix' => array('autocomplete' => 'hello')), $receivedQuery->getParam('query')->toArray());
             $this->assertSame(array('terms' => array('field' => 'autocomplete', 'order' => array('_count' => 'desc'), 'include' => array('pattern' => 'hello.*', 'flags' => ''))), $receivedQuery->getParam('aggs')[0]->toArray());
 

@@ -14,14 +14,17 @@ namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query;
 use Elastica\Query\MultiMatch;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Escaper\QueryStringEscaperInterface;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\MultiMatchQueryBuilder;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
 /**
  * Multi match query builder test.
  *
  * @author Stephan Wentz <sw@brainbits.net>
+ *
+ * @covers \Phlexible\Bundle\FrontendSearchBundle\Search\Query\MultiMatchQueryBuilder
  */
-class MultiMatchQueryBuilderTest extends \PHPUnit_Framework_TestCase
+class MultiMatchQueryBuilderTest extends TestCase
 {
     /**
      * @var MultiMatchQueryBuilder

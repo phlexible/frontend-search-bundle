@@ -15,7 +15,8 @@ use Elastica\Facet;
 use Elastica\Filter;
 use Elastica\Query;
 use Elastica\Suggest;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Phlexible\Bundle\ElasticaBundle\Elastica\Index;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -25,8 +26,23 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Stephan Wentz <sw@brainbits.net>
  */
-class QueryCommand extends ContainerAwareCommand
+class QueryCommand extends Command
 {
+    /**
+     * @var Index
+     */
+    private $index;
+
+    /**
+     * @param Index $index
+     */
+    public function __construct(Index $index)
+    {
+        parent::__construct();
+
+        $this->index = $index;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -82,8 +98,7 @@ class QueryCommand extends ContainerAwareCommand
             $query->setSuggest($suggest);
         }
 
-        $index = $this->getContainer()->get('phlexible_frontend_search.index');
-        $result = $index->search($query);
+        $result = $this->index->search($query);
 
         $output->writeln("{$result->getTotalHits()} hits");
         $output->writeln("Took {$result->getTotalTime()} hits");

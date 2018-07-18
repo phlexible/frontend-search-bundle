@@ -13,13 +13,16 @@ namespace Phlexible\Bundle\FrontendSearchBundle\Tests\Search\Query\Parser;
 
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Parser\Token;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\Parser\Tokenizer;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tokenizer test.
  *
  * @author Stephan Wentz <sw@brainbits.net>
+ *
+ * @covers \Phlexible\Bundle\FrontendSearchBundle\Search\Query\Parser\Tokenizer
  */
-class TokenizerTest extends \PHPUnit_Framework_TestCase
+class TokenizerTest extends TestCase
 {
     /**
      * @var Tokenizer
