@@ -30,8 +30,10 @@ class ElementSearchTest extends \PHPUnit_Framework_TestCase
         $index = $this->prophesize(Index::class);
         $queryBuilder = $this->prophesize(QueryBuilderInterface::class);
         $query = new QueryString('hello world');
-        $queryBuilder->build('hello world', ['title' => 1.2, 'content' => 1.0])
-            ->willReturn($query);
+        $queryBuilder->build(
+            'hello world',
+            array('title' => 1.2, 'content' => 1.0)
+        )->willReturn($query);
 
         $index->search(
             Argument::that(
@@ -39,33 +41,33 @@ class ElementSearchTest extends \PHPUnit_Framework_TestCase
                     $this->assertSame(5, $receivedQuery->getParam('size'));
                     $this->assertSame(10, $receivedQuery->getParam('from'));
                     $this->assertSame(
-                        [
-                            'fields' => [
-                                'title' => [
+                        array(
+                            'fields' => array(
+                                'title' => array(
                                     'fragment_size' => 20,
                                     'number_of_fragments' => 1,
-                                ],
-                                'content' => [
+                                ),
+                                'content' => array(
                                     'fragment_size' => 400,
                                     'number_of_fragments' => 2,
-                                ],
-                            ],
-                        ],
+                                ),
+                            ),
+                        ),
                         $receivedQuery->getParam('highlight')
                     );
                     $this->assertSame(
-                        [
-                            'bool' => [
-                                'must' => [
-                                    ['term' => ['siterootId' => 'abc']],
-                                    ['term' => ['language' => 'de']],
-                                ],
-                            ],
-                        ],
+                        array(
+                            'bool' => array(
+                                'must' => array(
+                                    array('term' => array('siterootId' => 'abc')),
+                                    array('term' => array('language' => 'de')),
+                                ),
+                            ),
+                        ),
                         $receivedQuery->getParam('post_filter')->toArray()
                     );
                     $this->assertSame(
-                        ['query_string' => ['query' => 'hello world']],
+                        array('query_string' => array('query' => 'hello world')),
                         $receivedQuery->getParam('query')->toArray()
                     );
 
@@ -83,29 +85,24 @@ class ElementSearchTest extends \PHPUnit_Framework_TestCase
         $index = $this->prophesize(Index::class);
         $queryBuilder = $this->prophesize(QueryBuilderInterface::class);
         $query = new QueryString('hello world');
-        $queryBuilder->build('hello world', ['title' => 1.2, 'content' => 1.0])
-            ->willReturn($query);
+        $queryBuilder->build(
+            'hello world',
+            array('title' => 1.2, 'content' => 1.0)
+        )->willReturn($query);
 
         $index->search(
             Argument::that(
                 function (Query $receivedQuery) use ($query) {
                     $this->assertSame(
-                        [
-                            'and' => [
-                                ['term' => ['siterootId' => 'abc']],
-                                ['term' => ['language' => 'de']],
-                            ],
-                        ],
+                        array(
+                            'bool' => array(
+                                'must' => array(
+                                    array('term' => array('language' => 'de')),
+                                    array('term' => array('siterootId' => 'abc')),
+                                ),
+                            ),
+                        ),
                         $receivedQuery->getParam('post_filter')->toArray()
-                    );
-                    $this->assertSame(
-                        [
-                            'multi_match' => [
-                                'query' => 'hello world',
-                                'fields' => ['title', 'content'],
-                            ],
-                        ],
-                        $receivedQuery->getParam('query')->toArray()
                     );
 
                     return true;
@@ -124,36 +121,38 @@ class ElementSearchTest extends \PHPUnit_Framework_TestCase
         $index = $this->prophesize(Index::class);
         $queryBuilder = $this->prophesize(QueryBuilderInterface::class);
         $query = new QueryString('hello');
-        $queryBuilder->build('hello', ['title' => 1.2, 'content' => 1.0])
+        $queryBuilder->build('hello', array('title' => 1.2, 'content' => 1.0))
             ->willReturn($query);
 
         $index->search(
             Argument::that(
                 function (Query $receivedQuery) use ($query) {
                     $this->assertSame(
-                        [
-                            'and' => [
-                                ['term' => ['siterootId' => 'abc']],
-                                ['term' => ['language' => 'de']],
-                            ],
-                        ],
+                        array(
+                            'bool' =>  array(
+                                'must' => array(
+                                    array('term' => array('siterootId' => 'abc')),
+                                    array('term' => array('language' => 'de')),
+                                ),
+                            ),
+                        ),
                         $receivedQuery->getParam('post_filter')->toArray()
                     );
                     $this->assertSame(
-                        ['prefix' => ['autocomplete' => 'hello']],
+                        array('prefix' => array('autocomplete' => 'hello')),
                         $receivedQuery->getParam('query')->toArray()
                     );
                     $this->assertSame(
-                        [
-                            'terms' => [
+                        array(
+                            'terms' => array(
                                 'field' => 'autocomplete',
-                                'order' => ['_count' => 'desc'],
-                                'include' => [
+                                'order' => array('_count' => 'desc'),
+                                'include' => array(
                                     'pattern' => 'hello.*',
                                     'flags' => '',
-                                ],
-                            ],
-                        ],
+                                ),
+                            ),
+                        ),
                         $receivedQuery->getParam('aggs')[0]->toArray()
                     );
 

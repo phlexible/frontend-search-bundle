@@ -128,14 +128,14 @@ class ElementSearch
      */
     public function autocomplete($queryString, $language, $siterootId)
     {
-        $filter = new Filter\BoolAnd();
+        $filter = new BoolQuery();
 
         if ($siterootId) {
-            $filter->addFilter(new Filter\Term(array('siterootId' => $siterootId)));
+            $filter->addMust(new Term(array('siterootId' => $siterootId)));
         }
 
         if ($language) {
-            $filter->addFilter(new Filter\Term(array('language' => $language)));
+            $filter->addMust(new Term(array('language' => $language)));
         }
 
         $aggregation = new Aggregation\Terms('autocomplete');
