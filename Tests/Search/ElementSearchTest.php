@@ -129,7 +129,7 @@ class ElementSearchTest extends \PHPUnit_Framework_TestCase
                 function (Query $receivedQuery) use ($query) {
                     $this->assertSame(
                         array(
-                            'bool' =>  array(
+                            'bool' => array(
                                 'must' => array(
                                     array('term' => array('siterootId' => 'abc')),
                                     array('term' => array('language' => 'de')),
