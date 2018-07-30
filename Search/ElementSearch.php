@@ -15,6 +15,8 @@ use Elastica\Aggregation;
 use Elastica\Filter;
 use Elastica\Index;
 use Elastica\Query;
+use Elastica\Query\BoolQuery;
+use Elastica\Query\Term;
 use Elastica\ResultSet;
 use Elastica\Suggest;
 use Phlexible\Bundle\FrontendSearchBundle\Search\Query\QueryBuilderInterface;
@@ -57,14 +59,14 @@ class ElementSearch
      */
     public function search($queryString, $language, $siterootId, $limit, $start = 0)
     {
-        $filter = new Filter\BoolAnd();
+        $filter = new BoolQuery();
 
         if ($siterootId) {
-            $filter->addFilter(new Filter\Term(array('siteroot_id' => $siterootId)));
+            $filter->addMust(new Term(array('siteroot_id' => $siterootId)));
         }
 
         if ($language) {
-            $filter->addFilter(new Filter\Term(array('language' => $language)));
+            $filter->addMust(new Term(array('language' => $language)));
         }
 
         $query = new Query();
@@ -94,36 +96,24 @@ class ElementSearch
      */
     public function suggest($queryString, $language, $siterootId)
     {
-        $suggestion = new Suggest\Term('did_you_mean', 'did_you_mean');
-        $suggestions = new Suggest($suggestion);
-        $suggestions->setGlobalText($queryString);
+        $suggest = new Suggest();
+        $term = new Suggest\Term('suggest', '_all');
+        $term->setText($queryString);
+        $suggest->addSuggestion($term);
 
-        $filter = new Filter\BoolAnd();
-
-        if ($siterootId) {
-            $filter->addFilter(new Filter\Term(array('siteroot_id' => $siterootId)));
-        }
-
-        if ($language) {
-            $filter->addFilter(new Filter\Term(array('language' => $language)));
-        }
-
-        $multiMatchQuery = new Query\MultiMatch();
-        $multiMatchQuery
-            ->setQuery($queryString)
-            ->setFields(array('title', 'content'));
+        $filter = new BoolQuery();
+        $filter->addMust(new Term(['language' => $language]));
+        $filter->addMust(new Term(['siteroot_id' => $siterootId]));
 
         $query = new Query();
-        $query
-            ->setQuery($multiMatchQuery)
-            ->setPostFilter($filter)
-            ->setSuggest($suggestions);
+        $query->setSuggest($suggest);
+        $query->setPostFilter($filter);
 
         $results = $this->index->search($query);
 
         $suggestions = array();
-        if (!empty($results->getSuggests()['did_you_mean'][0]['options'])) {
-            $suggestions = $results->getSuggests()['did_you_mean'][0]['options'];
+        if (!empty($results->getSuggests())) {
+            $suggestions = $results->getSuggests()['suggest'][0]['options'];
         }
 
         return $suggestions;
@@ -138,14 +128,14 @@ class ElementSearch
      */
     public function autocomplete($queryString, $language, $siterootId)
     {
-        $filter = new Filter\BoolAnd();
+        $filter = new BoolQuery();
 
         if ($siterootId) {
-            $filter->addFilter(new Filter\Term(array('siteroot_id' => $siterootId)));
+            $filter->addMust(new Term(array('siteroot_id' => $siterootId)));
         }
 
         if ($language) {
-            $filter->addFilter(new Filter\Term(array('language' => $language)));
+            $filter->addMust(new Term(array('language' => $language)));
         }
 
         $aggregation = new Aggregation\Terms('autocomplete');
